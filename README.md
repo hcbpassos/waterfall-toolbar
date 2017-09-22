@@ -1,0 +1,140 @@
+<img src="/.github/icon.png" alt="Icon"/>
+
+## Waterfall Toolbar
+Waterfall Toolbar is an Android version of Material Design's web component waterfall toolbar. Basically, what it does is dynamize a normal Toolbar, increasing and decreasing its shadow when an associated view is scrolled.<br>
+You can download the <a href="https://raw.githubusercontent.com/hugocastelani/waterfall-toolbar/master/sample.apk">sample.apk</a> to get a better notion of what's going on. 
+<img src="/.github/sample.gif" alt="Sample"/>
+
+## Setup
+### Gradle dependency
+Waterfall Toolbar is available on <a href="https://jitpack.io/#hugocastelani/waterfall-toolbar">Jitpack</a>.<br>
+To add this library to your project, add the code below to your root (not module) ``build.gradle`` file:
+```gradle
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+ ```
+
+And this one to your module `build.gradle` file:
+``` gradle
+dependencies {
+    ...
+    compile 'com.github.hugocastelani:waterfall-toolbar:0.1'
+}
+```
+
+## Implementation
+Implementing Waterfall Toolbar is quite simple. All you gotta do is add it to your layout via XML or Java and refer a RecyclerView or a ScrollView.<br>
+Your XML code: 
+```xml
+<com.hugocastelani.waterfalltoolbar.library.WaterfallToolbar
+    android:id="@+id/waterfall_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"/>
+        
+</com.hugocastelani.waterfalltoolbar.library.WaterfallToolbar>
+```
+
+Your Java code:
+```java
+public class MainActivity extends AestheticActivity {
+ 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ...
+        WaterfallToolbar mWaterfallToolbar = (WaterfallToolbar) findViewById(R.id.waterfall_toolbar);
+        mWaterfallToolbar.addRecyclerView(mRecyclerView);
+    }
+    
+}
+```
+
+Congratulations, you're all set!
+Note: you can do whatever you want with your inner Toolbar, Waterfall Toolbar won't interfere.
+
+## Customization
+Well, there are people who follow standards and people who create their standards. These last ones can customize three aspects of Waterfall Toolbar.<br>
+Note: sample project provides a nice environment to test all these things. Maybe you should give it a try.  
+
+### Initial elevation
+The elevation with which the toolbar starts. Default value: 1 dp.<br>
+Your Java code:
+```java
+mWaterfallToolbar.setInitialElevation(0);
+```
+
+Result:
+<img src="/.github/initial.gif" alt="New initial shadow"/>
+
+As you can see, that initial tiny shadow no longer exists.<br>
+Note: Waterfall Toolbar extends CardView, and its elevation in taken seriously by Android. If you set elevation as 0 and there's another view below it, Waterfall Toolbar is going to be overlaid. Fortunately, if you set the views' limits properly, you won't have any related trouble.  
+
+### Final elevation
+The elevation the toolbar gets when it reaches final scroll elevation. Default value: 6 dp.<br>
+Your Java code:
+```java
+mWaterfallToolbar.setFinalElevation(10);
+```
+
+Result:
+<img src="/.github/final.gif" alt="New final shadow"/>
+
+As result, the final shadow is much bigger.
+
+### Scroll final position
+The percentage of the screen's height that is going to be scrolled to reach the final elevation. Default value: 6%.<br>
+Your Java code:
+```java
+// first gif
+mWaterfallToolbar.setScrollFinalPosition(2);
+ 
+// second gif
+mWaterfallToolbar.setScrollFinalPosition(20);
+```
+
+Result:
+<img src="/.github/short.gif" alt="New final shadow"/>
+<img src="/.github/long.gif" alt="New final shadow"/>
+
+Now the final shadow takes much less and much longer to completely appear, respectively.
+
+## Developer
+### Contact me
+<a href="https://plus.google.com/+HugoCastelaniBP">Google+</a><br>
+<a href="https://t.me/HugoCastelani">Telegram</a>
+
+### Support me
+HugoCastelaniBP@gmail.com<br>
+If you enjoy my work and have a lots of money left over, please support me via PayPal :)<br>
+
+## License
+    MIT License
+     
+    Copyright (c) 2017 Hugo Castelani
+     
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+     
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+     
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.

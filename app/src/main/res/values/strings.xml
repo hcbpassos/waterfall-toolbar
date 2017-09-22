@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Waterfall Toolbar</string>
+
+    <string name="main_activity_label">@string/app_name</string>
+    <string name="sample_activity_label">Sample</string>
+
+    <string name="initial_elevation_title">Initial elevation (dp)</string>
+    <string name="initial_elevation_summary">The elevation with which the toolbar starts</string>
+
+    <string name="final_elevation_title">Final elevation (dp)</string>
+    <string name="final_elevation_summary">The elevation the toolbar gets when it reaches final scroll elevation</string>
+
+    <string name="scroll_final_position_title">Scroll final position (%)</string>
+    <string name="scroll_final_position_summary">The percentage of the screen\'s height that is going to be scrolled to reach the final elevation</string>
+
+    <string name="restore_default">Restore default</string>
+    <string name="done">Done</string>
+</resources>
