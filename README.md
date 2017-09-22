@@ -1,8 +1,8 @@
-<img src="/.github/icon.png" alt="Icon"/>
+<img src="/.github/icon.png" width="250px" alt="Icon"/>
 
 ## Waterfall Toolbar
-Waterfall Toolbar is an Android version of Material Design's web component waterfall toolbar. Basically, what it does is dynamize a normal Toolbar, increasing and decreasing its shadow when an associated view is scrolled.<br>
-You can download the <a href="https://raw.githubusercontent.com/hugocastelani/waterfall-toolbar/master/sample.apk">sample.apk</a> to get a better notion of what's going on. 
+Waterfall Toolbar is an Android version of Material Design's web component waterfall toolbar. Basically, what it does is dynamize an ordinary Toolbar, increasing and decreasing its shadow when an associated view is scrolled.<br>
+You can download the <a href="https://raw.githubusercontent.com/hugocastelani/waterfall-toolbar/master/sample.apk">sample.apk</a> to get a better notion of what's going on.<br><br>
 <img src="/.github/sample.gif" alt="Sample"/>
 
 ## Setup
@@ -45,7 +45,7 @@ Your XML code:
 
 Your Java code:
 ```java
-public class MainActivity extends AestheticActivity {
+public class MainActivity extends AppCompatActivity {
  
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,7 +58,7 @@ public class MainActivity extends AestheticActivity {
 }
 ```
 
-Congratulations, you're all set!
+Congratulations, you're all set!<br>
 Note: you can do whatever you want with your inner Toolbar, Waterfall Toolbar won't interfere.
 
 ## Customization
@@ -72,7 +72,7 @@ Your Java code:
 mWaterfallToolbar.setInitialElevation(0);
 ```
 
-Result:
+Result:<br><br>
 <img src="/.github/initial.gif" alt="New initial shadow"/>
 
 As you can see, that initial tiny shadow no longer exists.<br>
@@ -85,10 +85,10 @@ Your Java code:
 mWaterfallToolbar.setFinalElevation(10);
 ```
 
-Result:
+Result:<br><br>
 <img src="/.github/final.gif" alt="New final shadow"/>
 
-As result, the final shadow is much bigger.
+As result, the final shadow gets much bigger.
 
 ### Scroll final position
 The percentage of the screen's height that is going to be scrolled to reach the final elevation. Default value: 6%.<br>
@@ -101,11 +101,11 @@ mWaterfallToolbar.setScrollFinalPosition(2);
 mWaterfallToolbar.setScrollFinalPosition(20);
 ```
 
-Result:
-<img src="/.github/short.gif" alt="New final shadow"/>
-<img src="/.github/long.gif" alt="New final shadow"/>
+Result:<br><br>
+<img src="/.github/short.gif" alt="Short value to scroll final position"/>
+<img src="/.github/long.gif" alt="Long value to scroll final position"/>
 
-Now the final shadow takes much less and much longer to completely appear, respectively.
+Now, the final shadow takes much less and much longer to completely appear, respectively.
 
 ## Developer
 ### Contact me
