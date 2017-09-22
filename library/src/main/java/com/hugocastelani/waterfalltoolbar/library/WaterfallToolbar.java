@@ -70,7 +70,7 @@ public class WaterfallToolbar extends CardView {
     }
 
     /**
-     * @param value The list view whose scroll is going to be listened
+     * @param value The scroll view whose scroll is going to be listened
      * @return Own object
      */
     public WaterfallToolbar addScrollView(@NonNull final ScrollView value) {
