@@ -1,12 +1,15 @@
 language: android
-jdk: openjdk8
+jdk: oraclejdk8
 android:
   components:
     - tools
     - platform-tools
     - build-tools-26.0.0
     - android-26
-    before_install:
-      - mkdir "$ANDROID_HOME/licenses" || true
-      - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
-      - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
+    - extra-android-support
+    - extra-android-m2repository
+    - extra-google-m2repository
+before_install:
+  - mkdir "$ANDROID_HOME/licenses" || true
+  - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
+  - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
