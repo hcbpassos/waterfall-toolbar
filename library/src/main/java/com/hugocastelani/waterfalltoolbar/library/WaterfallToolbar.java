@@ -1,18 +1,11 @@
 package com.hugocastelani.waterfalltoolbar.library;
 
 import android.content.Context;
-import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.AbsListView;
-import android.widget.ListView;
 import android.widget.ScrollView;
 
 import com.hugocastelani.waterfalltoolbar.library.annotation.Dp;
@@ -120,12 +113,7 @@ public class WaterfallToolbar extends CardView {
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                     super.onScrolled(recyclerView, dx, dy);
                     mPosition += dy;
-
-                    // shadow shall not increase if current mPosition
-                    // is higher than scroll's final mPosition
-                    if (mPosition <= mScrollFinalPosition) {
-                        setCardElevation(calculateElevation());
-                    }
+                    onScroll();
                 }
             });
         } else {
@@ -138,11 +126,8 @@ public class WaterfallToolbar extends CardView {
             mScrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
                 @Override
                 public void onScrollChanged() {
-                    // shadow shall not increase if current position
-                    // is higher than scroll's final position
-                    if (mScrollView.getScrollY() <= mScrollFinalPosition) {
-                        setCardElevation(calculateElevation());
-                    }
+                    mPosition = mScrollView.getScrollY();
+                    onScroll();
                 }
             });
         } else {
@@ -150,10 +135,31 @@ public class WaterfallToolbar extends CardView {
         }
     }
 
+    private void onScroll() {
+        // shadow shall not increase if current mPosition
+        // is higher than scroll's final mPosition
+        if (mPosition <= mScrollFinalPosition) {
+            setCardElevation(calculateElevation());
+
+        } else {
+
+            // thread below fixes issue #1, avoiding elevation
+            // setting problems when fast scrolling
+            final int mPositionBackup = mPosition;
+            mPosition = mScrollFinalPosition;
+            final int properElevation = calculateElevation();
+            mPosition = mPositionBackup;
+
+            if (getCardElevation() != properElevation) {
+                setCardElevation(properElevation);
+            }
+        }
+    }
+
     private int calculateElevation() {
         // getting back to rule of three:
         // mFinalElevation (px) = mScrollFinalPosition (px)
-        // newElevation   (px) = mPosition            (px)
+        // newElevation    (px) = mPosition            (px)
         int newElevation = (mFinalElevation * mPosition) / mScrollFinalPosition;
 
         // avoid values under minimum value
