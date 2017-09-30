@@ -110,7 +110,7 @@ Result:<br><br>
 Now, the final shadow takes much less and much longer to completely appear, respectively.
 
 ## Current project situation
-There are some bugs that interfere directly in Waterfall Toolbar usage, so it isn't really ready to be used. I'm going to try to fix these bugs in my spare time.
+Waterfall Toolbar can be used, but there's one inconvenient bugs yet. I'm going to try to fix it in my spare time.
 
 ## Developer
 ### Contact me
