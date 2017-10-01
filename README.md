@@ -1,7 +1,7 @@
 <img src="/.github/icon.png" width="190px" alt="Icon"/>
 
 ## Waterfall Toolbar
-[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-material--intro-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/6232)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Waterfall%20Toolbar-brightgreen.svg)](https://android-arsenal.com/details/1/6232)
 [![JitPack](https://jitpack.io/v/hugocastelani/waterfall-toolbar.svg)](https://jitpack.io/#hugocastelani/waterfall-toolbar)
 [![License](https://img.shields.io/github/license/hugocastelani/waterfall-toolbar.svg)](https://github.com/hugocastelani/waterfall-toolbar/blob/master/LICENSE)<br>
 Waterfall Toolbar is an Android version of Material Design's web component waterfall toolbar. Basically, what it does is dynamize an ordinary Toolbar, increasing and decreasing its shadow when an associated view is scrolled.<br>
