@@ -54,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ...
-        WaterfallToolbar mWaterfallToolbar = (WaterfallToolbar) findViewById(R.id.waterfall_toolbar);
-        mWaterfallToolbar.addRecyclerView(mRecyclerView);
+        WaterfallToolbar waterfallToolbar = (WaterfallToolbar) findViewById(R.id.waterfall_toolbar);
+        waterfallToolbar.addRecyclerView(mRecyclerView);
     }
     
 }

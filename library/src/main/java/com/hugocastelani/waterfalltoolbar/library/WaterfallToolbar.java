@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.view.ViewTreeObserver;
 import android.widget.ScrollView;
 
 import com.hugocastelani.waterfalltoolbar.library.annotation.Dp;
@@ -21,13 +20,13 @@ public class WaterfallToolbar extends CardView {
     private RecyclerView mRecyclerView;
     private ScrollView mScrollView;
 
-    private int mInitialElevation;
-    private int mFinalElevation;
-    private int mScrollFinalPosition;
+    private Integer mInitialElevation;
+    private Integer mFinalElevation;
+    private Integer mScrollFinalPosition;
 
-    public static final int DEFAULT_INITIAL_ELEVATION = 1;
-    public static final int DEFAULT_FINAL_ELEVATION = 6;
-    public static final int DEFAULT_SCROLL_FINAL_ELEVATION = 6;
+    public static final Integer DEFAULT_INITIAL_ELEVATION = 1;
+    public static final Integer DEFAULT_FINAL_ELEVATION = 6;
+    public static final Integer DEFAULT_SCROLL_FINAL_ELEVATION = 6;
 
     public WaterfallToolbar(Context context) {
         super(context);
@@ -39,7 +38,7 @@ public class WaterfallToolbar extends CardView {
         init();
     }
 
-    public WaterfallToolbar(Context context, AttributeSet attrs, int defStyleAttr) {
+    public WaterfallToolbar(Context context, AttributeSet attrs, Integer defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
@@ -76,7 +75,7 @@ public class WaterfallToolbar extends CardView {
      * @param value The elevation with which the toolbar starts
      * @return Own object
      */
-    public WaterfallToolbar setInitialElevation(@Dp final int value) {
+    public WaterfallToolbar setInitialElevation(@Dp @NonNull final Integer value) {
         setCardElevation(dp2px(value));
         mInitialElevation = dp2px(value);
         return this;
@@ -86,7 +85,7 @@ public class WaterfallToolbar extends CardView {
      * @param value The elevation the toolbar gets when it reaches final scroll elevation
      * @return Own object
      */
-    public WaterfallToolbar setFinalElevation(@Dp final int value) {
+    public WaterfallToolbar setFinalElevation(@Dp @NonNull final Integer value) {
         mFinalElevation = dp2px(value);
         return this;
     }
@@ -96,15 +95,15 @@ public class WaterfallToolbar extends CardView {
      *              going to be scrolled to reach the final elevation
      * @return Own object
      */
-    public WaterfallToolbar setScrollFinalPosition(@Percentage final int value) {
-        final int screenHeight = getResources().getDisplayMetrics().heightPixels;
+    public WaterfallToolbar setScrollFinalPosition(@Percentage @NonNull final Integer value) {
+        final Integer screenHeight = getResources().getDisplayMetrics().heightPixels;
 
         mScrollFinalPosition = dp2px((int) (screenHeight * (value / 100.0)));
         return this;
     }
 
     // this represents current recycler/list/scroll view's position
-    private int mPosition = 0;
+    private Integer mPosition = 0;
 
     private void addRecyclerViewScrollListener() {
         if (mRecyclerView != null) {
@@ -123,44 +122,47 @@ public class WaterfallToolbar extends CardView {
 
     private void addScrollViewScrollListener() {
         if (mScrollView != null) {
-            mScrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-                @Override
-                public void onScrollChanged() {
-                    mPosition = mScrollView.getScrollY();
-                    onScroll();
-                }
+            mScrollView.getViewTreeObserver().addOnScrollChangedListener(() -> {
+                mPosition = mScrollView.getScrollY();
+                onScroll();
             });
         } else {
             throw new NullPointerException("ScrollView cannot be null.");
         }
     }
 
-    private void onScroll() {
-        // shadow shall not increase if current mPosition
-        // is higher than scroll's final mPosition
+    private Integer onScroll() {
+        Integer elevation;
+
+        // shadow shall not increase if current position
+        // is higher than scroll's final position
         if (mPosition <= mScrollFinalPosition) {
-            setCardElevation(calculateElevation());
+            elevation = calculateElevation();
+            setCardElevation(elevation);
 
         } else {
 
-            // thread below fixes issue #1, avoiding elevation
+            // tweak below fixes issue #1, avoiding elevation
             // setting problems when fast scrolling
-            final int mPositionBackup = mPosition;
+            final Integer mPositionBackup = mPosition;
             mPosition = mScrollFinalPosition;
-            final int properElevation = calculateElevation();
+            elevation = calculateElevation();
             mPosition = mPositionBackup;
 
-            if (getCardElevation() != properElevation) {
-                setCardElevation(properElevation);
+            if (getCardElevation() != elevation) {
+                setCardElevation(elevation);
             }
         }
+
+        // going to avoid extra code to get current elevation in onSaveInstanceState() method
+        return elevation;
     }
 
-    private int calculateElevation() {
+    private Integer calculateElevation() {
         // getting back to rule of three:
         // mFinalElevation (px) = mScrollFinalPosition (px)
         // newElevation    (px) = mPosition            (px)
-        int newElevation = (mFinalElevation * mPosition) / mScrollFinalPosition;
+        Integer newElevation = (mFinalElevation * mPosition) / mScrollFinalPosition;
 
         // avoid values under minimum value
         if (newElevation < mInitialElevation) newElevation = mInitialElevation;
@@ -179,8 +181,8 @@ public class WaterfallToolbar extends CardView {
      * Method got from:
      * https://github.com/Blankj/AndroidUtilCode/blob/master/utilcode/src/main/java/com/blankj/utilcode/util/ConvertUtils.java
      */
-    private int dp2px(final int dpValue) {
-        final float scale = getResources().getDisplayMetrics().density;
+    private Integer dp2px(@Dp @NonNull final Integer dpValue) {
+        final Float scale = getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
 }
