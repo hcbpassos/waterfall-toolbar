@@ -2,19 +2,13 @@ package com.hugocastelani.waterfalltoolbar.sample;
 
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.ScrollView;
 
 import com.hugocastelani.waterfalltoolbar.R;
 import com.hugocastelani.waterfalltoolbar.library.WaterfallToolbar;
@@ -26,9 +20,9 @@ public class SampleActivity extends AppCompatActivity {
     Toolbar mToolbar;
     RecyclerView mRecyclerView;
 
-    int mInitialElevation;
-    int mFinalElevation;
-    int mScrollFinalPosition;
+    Integer mInitialElevation;
+    Integer mFinalElevation;
+    Integer mScrollFinalPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +41,9 @@ public class SampleActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        mWaterfallToolbar = (WaterfallToolbar) findViewById(R.id.waterfall_toolbar);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        mWaterfallToolbar = findViewById(R.id.waterfall_toolbar);
+        mToolbar = findViewById(R.id.toolbar);
+        mRecyclerView = findViewById(R.id.recycler_view);
     }
 
     private void prepareViews() {
@@ -82,7 +76,7 @@ public class SampleActivity extends AppCompatActivity {
     private static ArrayList<ItemModel> generateItemModelList() {
         final ArrayList<ItemModel> itemModelList = new ArrayList<>();
 
-        for (int i = 0; i < 20;) {
+        for (Integer i = 0; i < 20;) {
             itemModelList.add(new ItemModel(
                     "Item #" + (++i),
                     "Earth isn't flat"
@@ -94,11 +88,12 @@ public class SampleActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+        Integer id = item.getItemId();
 
         if (id == android.R.id.home) {
             onBackPressed();
         }
+
         return super.onOptionsItemSelected(item);
     }
 }

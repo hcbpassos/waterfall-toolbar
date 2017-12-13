@@ -1,11 +1,8 @@
 package com.hugocastelani.waterfalltoolbar.main;
 
 import android.content.Intent;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 
@@ -35,12 +32,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mInitialElevationSeekBar = (DiscreteSeekBar) findViewById(R.id.initial_elevation_seek_bar);
-        mFinalElevationSeekBar = (DiscreteSeekBar) findViewById(R.id.final_elevation_seek_bar);
-        mScrollFinalPositionSeekBar = (DiscreteSeekBar) findViewById(R.id.scroll_final_position_seek_bar);
-        mDoneButton = (Button) findViewById(R.id.done_button);
-        mRestoreDefaultButton = (Button) findViewById(R.id.restore_default_button);
+        mToolbar = findViewById(R.id.toolbar);
+        mInitialElevationSeekBar = findViewById(R.id.initial_elevation_seek_bar);
+        mFinalElevationSeekBar = findViewById(R.id.final_elevation_seek_bar);
+        mScrollFinalPositionSeekBar = findViewById(R.id.scroll_final_position_seek_bar);
+        mDoneButton = findViewById(R.id.done_button);
+        mRestoreDefaultButton = findViewById(R.id.restore_default_button);
     }
 
     private void prepareViews() {
