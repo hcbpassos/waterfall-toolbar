@@ -120,7 +120,7 @@ Waterfall Toolbar is stable, but ListView would come in handy. If you want to co
 
 ### Support me
 HugoCastelaniBP@gmail.com<br>
-If you enjoy my work and have a lots of money left over, please support me via PayPal using the email above :)<br>
+If you enjoy my work and have lots of money left over, please support me via PayPal using the email above :)<br>
 
 ## License
     MIT License
