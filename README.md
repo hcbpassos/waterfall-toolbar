@@ -65,15 +65,13 @@ Congratulations, you're all set!<br>
 Note: you can do whatever you want with your inner Toolbar, Waterfall Toolbar won't interfere.
 
 ## Customization
-Well, there are people who follow standards and people who create their standards. These last ones can customize three aspects of Waterfall Toolbar.<br>
+Well, there are people who follow standards and people who create their standards. These last ones can customize three aspects of Waterfall Toolbar with Java or XML.<br>
 Note: sample project provides a nice environment to test all these things. Maybe you should give it a try.  
 
 ### Initial elevation
 The elevation with which the toolbar starts. Default value: 1 dp.<br>
-Your Java code:
-```java
-waterfallToolbar.setInitialElevation(0);
-```
+Through Java: `waterfallToolbar.setInitialElevationDp(0);`<br>
+Through XML: `app:initial_elevation="0dp"`
 
 Result:<br><br>
 <img src="/.github/initial.gif" alt="New initial shadow"/>
@@ -83,10 +81,8 @@ Note: Waterfall Toolbar extends CardView, and its elevation in taken seriously b
 
 ### Final elevation
 The elevation the toolbar gets when it reaches final scroll elevation. Default value: 6 dp.<br>
-Your Java code:
-```java
-waterfallToolbar.setFinalElevation(10);
-```
+Through Java: `waterfallToolbar.setFinalElevationDp(10);`<br>
+Through XML: `app:final_elevation="10dp"`
 
 Result:<br><br>
 <img src="/.github/final.gif" alt="New final shadow"/>
@@ -95,20 +91,19 @@ As result, the final shadow gets much bigger.
 
 ### Scroll final position
 The percentage of the screen's height that is going to be scrolled to reach the final elevation. Default value: 6%.<br>
-Your Java code:
-```java
-// first gif
-waterfallToolbar.setScrollFinalPosition(2);
- 
-// second gif
-waterfallToolbar.setScrollFinalPosition(20);
-```
+Short value:<br>
+Through Java: `waterfallToolbar.setScrollFinalPosition(2);`<br>
+Through XML: `app:scroll_final_elevation="2"`
 
-Result:<br><br>
+Long value:<br>
+Through Java: `waterfallToolbar.setScrollFinalPosition(20);`<br>
+Through XML: `app:scroll_final_elevation="20"`
+
+Respective results:<br><br>
 <img src="/.github/short.gif" alt="Short value to scroll final position"/>
 <img src="/.github/long.gif" alt="Long value to scroll final position"/>
 
-Now, the final shadow takes much less and much longer to completely appear, respectively.
+Now the final shadow takes much less and much longer to completely appear, respectively.
 
 ## Current project situation
 Waterfall Toolbar is stable, but ListView would come in handy. If you want to contribute, please read <a href="https://github.com/HugoCastelani/waterfall-toolbar/issues/2">this</a>.

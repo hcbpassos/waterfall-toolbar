@@ -62,11 +62,11 @@ public class MainActivity extends AppCompatActivity {
         mRestoreDefaultButton.setOnClickListener(view -> {
             mFinalElevationSeekBar.setMin(0);
             mFinalElevationSeekBar.setMax(10);
-            mInitialElevationSeekBar.setProgress(WaterfallToolbar.DEFAULT_INITIAL_ELEVATION);
+            mInitialElevationSeekBar.setProgress(WaterfallToolbar.DEFAULT_INITIAL_ELEVATION_DP.intValue());
 
-            mFinalElevationSeekBar.setMin(WaterfallToolbar.DEFAULT_INITIAL_ELEVATION);
-            mFinalElevationSeekBar.setMax(WaterfallToolbar.DEFAULT_INITIAL_ELEVATION + 10);
-            mFinalElevationSeekBar.setProgress(WaterfallToolbar.DEFAULT_FINAL_ELEVATION);
+            mFinalElevationSeekBar.setMin(WaterfallToolbar.DEFAULT_INITIAL_ELEVATION_DP.intValue());
+            mFinalElevationSeekBar.setMax(WaterfallToolbar.DEFAULT_INITIAL_ELEVATION_DP.intValue() + 10);
+            mFinalElevationSeekBar.setProgress(WaterfallToolbar.DEFAULT_FINAL_ELEVATION_DP.intValue());
 
             mScrollFinalPositionSeekBar.setProgress(WaterfallToolbar.DEFAULT_SCROLL_FINAL_ELEVATION);
         });

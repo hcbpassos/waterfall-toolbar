@@ -20,8 +20,8 @@ public class SampleActivity extends AppCompatActivity {
     Toolbar mToolbar;
     RecyclerView mRecyclerView;
 
-    Integer mInitialElevation;
-    Integer mFinalElevation;
+    Float mInitialElevation;
+    Float mFinalElevation;
     Integer mScrollFinalPosition;
 
     @Override
@@ -31,8 +31,8 @@ public class SampleActivity extends AppCompatActivity {
 
         final Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            mInitialElevation = bundle.getInt("initial_elevation");
-            mFinalElevation = bundle.getInt("final_elevation");
+            mInitialElevation = (float) bundle.getInt("initial_elevation");
+            mFinalElevation = (float) bundle.getInt("final_elevation");
             mScrollFinalPosition = bundle.getInt("scroll_final_position");
         }
 
@@ -50,8 +50,8 @@ public class SampleActivity extends AppCompatActivity {
         // prepare waterfall toolbar
         mWaterfallToolbar.addRecyclerView(mRecyclerView)
                 // setters below aren't mandatory
-                .setInitialElevation(mInitialElevation)
-                .setFinalElevation(mFinalElevation)
+                .setInitialElevationDp(mInitialElevation)
+                .setFinalElevationDp(mFinalElevation)
                 .setScrollFinalPosition(mScrollFinalPosition);
 
         // prepare toolbar

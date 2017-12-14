@@ -35,6 +35,8 @@ public class WaterfallToolbar extends CardView {
     public static final Float DEFAULT_FINAL_ELEVATION_DP = 6f;
     public static final Integer DEFAULT_SCROLL_FINAL_ELEVATION = 6;
 
+    public Boolean mIsSetup = false;
+
     public WaterfallToolbar(Context context) {
         super(context);
         init(context, null);
@@ -56,16 +58,18 @@ public class WaterfallToolbar extends CardView {
         if (context != null && attrs != null) {
             final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.WaterfallToolbar);
 
-            setInitialElevationPx(typedArray.getDimensionPixelSize(R.styleable.WaterfallToolbar_initial_elevation, DEFAULT_INITIAL_ELEVATION_DP.intValue()));
-            setFinalElevationPx(typedArray.getDimensionPixelSize(R.styleable.WaterfallToolbar_final_elevation, DEFAULT_FINAL_ELEVATION_DP.intValue()));
+            setInitialElevationPx(typedArray.getDimensionPixelSize(R.styleable.WaterfallToolbar_initial_elevation, dp2px(DEFAULT_INITIAL_ELEVATION_DP)));
+            setFinalElevationPx(typedArray.getDimensionPixelSize(R.styleable.WaterfallToolbar_final_elevation, dp2px(DEFAULT_FINAL_ELEVATION_DP)));
             setScrollFinalPosition(typedArray.getInteger(R.styleable.WaterfallToolbar_scroll_final_elevation, DEFAULT_SCROLL_FINAL_ELEVATION));
 
-            return;
+        } else {
+
+            setInitialElevationDp(DEFAULT_INITIAL_ELEVATION_DP);
+            setFinalElevationDp(DEFAULT_FINAL_ELEVATION_DP);
+            setScrollFinalPosition(DEFAULT_SCROLL_FINAL_ELEVATION);
         }
 
-        setInitialElevationDp(DEFAULT_INITIAL_ELEVATION_DP);
-        setFinalElevationDp(DEFAULT_FINAL_ELEVATION_DP);
-        setScrollFinalPosition(DEFAULT_SCROLL_FINAL_ELEVATION);
+        mIsSetup = true;
     }
 
     /**
@@ -97,7 +101,7 @@ public class WaterfallToolbar extends CardView {
 
         // gotta update elevation in case this value have
         // been set in a running and visible activity
-        onScroll();
+        if (mIsSetup) onScroll();
 
         return this;
     }
@@ -111,7 +115,7 @@ public class WaterfallToolbar extends CardView {
 
         // gotta update elevation in case this value have
         // been set in a running and visible activity
-        onScroll();
+        if (mIsSetup) onScroll();
 
         return this;
     }
@@ -125,7 +129,7 @@ public class WaterfallToolbar extends CardView {
 
         // gotta update elevation in case this value have
         // been set in a running and visible activity
-        onScroll();
+        if (mIsSetup) onScroll();
 
         return this;
     }
@@ -139,7 +143,7 @@ public class WaterfallToolbar extends CardView {
 
         // gotta update elevation in case this value have
         // been set in a running and visible activity
-        onScroll();
+        if (mIsSetup) onScroll();
 
         return this;
     }
@@ -155,7 +159,7 @@ public class WaterfallToolbar extends CardView {
 
         // gotta update elevation in case this value have
         // been set in a running and visible activity
-        onScroll();
+        if (mIsSetup) onScroll();
 
         return this;
     }
@@ -164,29 +168,21 @@ public class WaterfallToolbar extends CardView {
     private Integer mPosition = 0;
 
     private void addRecyclerViewScrollListener() {
-        if (mRecyclerView != null) {
-            mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                    super.onScrolled(recyclerView, dx, dy);
-                    mPosition += dy;
-                    onScroll();
-                }
-            });
-        } else {
-            throw new NullPointerException("RecyclerView cannot be null.");
-        }
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                mPosition += dy;
+                onScroll();
+            }
+        });
     }
 
     private void addScrollViewScrollListener() {
-        if (mScrollView != null) {
-            mScrollView.getViewTreeObserver().addOnScrollChangedListener(() -> {
-                mPosition = mScrollView.getScrollY();
-                onScroll();
-            });
-        } else {
-            throw new NullPointerException("ScrollView cannot be null.");
-        }
+        mScrollView.getViewTreeObserver().addOnScrollChangedListener(() -> {
+            mPosition = mScrollView.getScrollY();
+            onScroll();
+        });
     }
 
     private Integer onScroll() {

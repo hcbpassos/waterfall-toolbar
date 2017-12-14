@@ -3,13 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.hugocastelani.waterfalltoolbar.sample.SampleActivity"
     android:orientation="vertical">
 
     <com.hugocastelani.waterfalltoolbar.library.WaterfallToolbar
         android:id="@+id/waterfall_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:initial_elevation="0dp">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
