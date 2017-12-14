@@ -72,7 +72,7 @@ Note: sample project provides a nice environment to test all these things. Maybe
 The elevation with which the toolbar starts. Default value: 1 dp.<br>
 Your Java code:
 ```java
-mWaterfallToolbar.setInitialElevation(0);
+waterfallToolbar.setInitialElevation(0);
 ```
 
 Result:<br><br>
@@ -85,7 +85,7 @@ Note: Waterfall Toolbar extends CardView, and its elevation in taken seriously b
 The elevation the toolbar gets when it reaches final scroll elevation. Default value: 6 dp.<br>
 Your Java code:
 ```java
-mWaterfallToolbar.setFinalElevation(10);
+waterfallToolbar.setFinalElevation(10);
 ```
 
 Result:<br><br>
@@ -98,10 +98,10 @@ The percentage of the screen's height that is going to be scrolled to reach the 
 Your Java code:
 ```java
 // first gif
-mWaterfallToolbar.setScrollFinalPosition(2);
+waterfallToolbar.setScrollFinalPosition(2);
  
 // second gif
-mWaterfallToolbar.setScrollFinalPosition(20);
+waterfallToolbar.setScrollFinalPosition(20);
 ```
 
 Result:<br><br>
@@ -111,7 +111,7 @@ Result:<br><br>
 Now, the final shadow takes much less and much longer to completely appear, respectively.
 
 ## Current project situation
-Waterfall Toolbar can be used, but there's one inconvenient bugs yet. I'm going to try to fix it in my spare time.
+Waterfall Toolbar is stable, but ListView would come in handy. If you want to contribute, please read <a href="https://github.com/HugoCastelani/waterfall-toolbar/issues/2">this</a>.
 
 ## Developer
 ### Contact me
@@ -120,7 +120,7 @@ Waterfall Toolbar can be used, but there's one inconvenient bugs yet. I'm going 
 
 ### Support me
 HugoCastelaniBP@gmail.com<br>
-If you enjoy my work and have a lots of money left over, please support me via PayPal :)<br>
+If you enjoy my work and have a lots of money left over, please support me via PayPal using the email above :)<br>
 
 ## License
     MIT License
