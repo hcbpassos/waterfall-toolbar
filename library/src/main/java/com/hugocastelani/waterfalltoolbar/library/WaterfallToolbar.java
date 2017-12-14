@@ -1,7 +1,12 @@
 package com.hugocastelani.waterfalltoolbar.library;
 
 import android.content.Context;
+import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -154,7 +159,7 @@ public class WaterfallToolbar extends CardView {
             }
         }
 
-        // going to avoid extra code to get current elevation in onSaveInstanceState() method
+        // going to avoid extra code to get current elevation in onSaveInstanceState method
         return elevation;
     }
 
@@ -168,6 +173,71 @@ public class WaterfallToolbar extends CardView {
         if (newElevation < mInitialElevation) newElevation = mInitialElevation;
 
         return newElevation;
+    }
+
+    @Nullable
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        final SavedState savedState = new SavedState(super.onSaveInstanceState());
+        savedState.setElevation(onScroll());
+        savedState.setPosition(mPosition);
+        return savedState;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        final SavedState savedState = (SavedState) state;
+        super.onRestoreInstanceState(savedState.getSuperState());
+
+        // setCardElevation method doesn't work until view is created
+        post(() -> setCardElevation(savedState.getElevation()));
+        mPosition = savedState.getPosition();
+    }
+
+    private static class SavedState extends BaseSavedState {
+        private Integer elevation;
+        private Integer position;
+
+        SavedState(Parcel source) {
+            super(source);
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        SavedState(Parcel source, ClassLoader loader) {
+            super(source, loader);
+        }
+
+        SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        @NonNull
+        Integer getElevation() {
+            return elevation;
+        }
+
+        void setElevation(@NonNull final Integer elevation) {
+            this.elevation = elevation;
+        }
+
+        @NonNull
+        public Integer getPosition() {
+            return position;
+        }
+
+        public void setPosition(@NonNull final Integer position) {
+            this.position = position;
+        }
+
+        static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
+            public SavedState createFromParcel(Parcel source) {
+                return new SavedState(source);
+            }
+
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
     }
 
     /**
