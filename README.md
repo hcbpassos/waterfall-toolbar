@@ -25,7 +25,7 @@ And this one to your module `build.gradle` file:
 ``` gradle
 dependencies {
     ...
-    compile 'com.github.hugocastelani:waterfall-toolbar:0.2'
+    compile 'com.github.hugocastelani:waterfall-toolbar:0.3'
 }
 ```
 
