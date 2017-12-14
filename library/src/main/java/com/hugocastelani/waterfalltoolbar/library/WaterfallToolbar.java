@@ -1,11 +1,13 @@
 package com.hugocastelani.waterfalltoolbar.library;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.Px;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -29,30 +31,40 @@ public class WaterfallToolbar extends CardView {
     private Integer mFinalElevation;
     private Integer mScrollFinalPosition;
 
-    public static final Integer DEFAULT_INITIAL_ELEVATION = 1;
-    public static final Integer DEFAULT_FINAL_ELEVATION = 6;
+    public static final Float DEFAULT_INITIAL_ELEVATION_DP = 1f;
+    public static final Float DEFAULT_FINAL_ELEVATION_DP = 6f;
     public static final Integer DEFAULT_SCROLL_FINAL_ELEVATION = 6;
 
     public WaterfallToolbar(Context context) {
         super(context);
-        init();
+        init(context, null);
     }
 
     public WaterfallToolbar(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context, attrs);
     }
 
     public WaterfallToolbar(Context context, AttributeSet attrs, Integer defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        init(context, attrs);
     }
 
-    private void init() {
+    private void init(final Context context, @Nullable final AttributeSet attrs) {
         setRadius(0);    // same as cardCornerRadius
 
-        setInitialElevation(DEFAULT_INITIAL_ELEVATION);
-        setFinalElevation(DEFAULT_FINAL_ELEVATION);
+        if (context != null && attrs != null) {
+            final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.WaterfallToolbar);
+
+            setInitialElevationPx(typedArray.getDimensionPixelSize(R.styleable.WaterfallToolbar_initial_elevation, DEFAULT_INITIAL_ELEVATION_DP.intValue()));
+            setFinalElevationPx(typedArray.getDimensionPixelSize(R.styleable.WaterfallToolbar_final_elevation, DEFAULT_FINAL_ELEVATION_DP.intValue()));
+            setScrollFinalPosition(typedArray.getInteger(R.styleable.WaterfallToolbar_scroll_final_elevation, DEFAULT_SCROLL_FINAL_ELEVATION));
+
+            return;
+        }
+
+        setInitialElevationDp(DEFAULT_INITIAL_ELEVATION_DP);
+        setFinalElevationDp(DEFAULT_FINAL_ELEVATION_DP);
         setScrollFinalPosition(DEFAULT_SCROLL_FINAL_ELEVATION);
     }
 
@@ -77,21 +89,58 @@ public class WaterfallToolbar extends CardView {
     }
 
     /**
-     * @param value The elevation with which the toolbar starts
+     * @param value The elevation (in dp) with which the toolbar starts
      * @return Own object
      */
-    public WaterfallToolbar setInitialElevation(@Dp @NonNull final Integer value) {
-        setCardElevation(dp2px(value));
+    public WaterfallToolbar setInitialElevationDp(@Dp @NonNull final Float value) {
         mInitialElevation = dp2px(value);
+
+        // gotta update elevation in case this value have
+        // been set in a running and visible activity
+        onScroll();
+
         return this;
     }
 
     /**
-     * @param value The elevation the toolbar gets when it reaches final scroll elevation
+     * @param value The elevation (in px) with which the toolbar starts
      * @return Own object
      */
-    public WaterfallToolbar setFinalElevation(@Dp @NonNull final Integer value) {
+    public WaterfallToolbar setInitialElevationPx(@Px @NonNull final Integer value) {
+        mInitialElevation = value;
+
+        // gotta update elevation in case this value have
+        // been set in a running and visible activity
+        onScroll();
+
+        return this;
+    }
+
+    /**
+     * @param value The elevation (in dp) the toolbar gets when it reaches final scroll elevation
+     * @return Own object
+     */
+    public WaterfallToolbar setFinalElevationDp(@Dp @NonNull final Float value) {
         mFinalElevation = dp2px(value);
+
+        // gotta update elevation in case this value have
+        // been set in a running and visible activity
+        onScroll();
+
+        return this;
+    }
+
+    /**
+     * @param value The elevation (in px) the toolbar gets when it reaches final scroll elevation
+     * @return Own object
+     */
+    public WaterfallToolbar setFinalElevationPx(@Px @NonNull final Integer value) {
+        mFinalElevation = value;
+
+        // gotta update elevation in case this value have
+        // been set in a running and visible activity
+        onScroll();
+
         return this;
     }
 
@@ -102,8 +151,12 @@ public class WaterfallToolbar extends CardView {
      */
     public WaterfallToolbar setScrollFinalPosition(@Percentage @NonNull final Integer value) {
         final Integer screenHeight = getResources().getDisplayMetrics().heightPixels;
+        mScrollFinalPosition = dp2px(screenHeight * (value / 100.0f));
 
-        mScrollFinalPosition = dp2px((int) (screenHeight * (value / 100.0)));
+        // gotta update elevation in case this value have
+        // been set in a running and visible activity
+        onScroll();
+
         return this;
     }
 
@@ -251,7 +304,7 @@ public class WaterfallToolbar extends CardView {
      * Method got from:
      * https://github.com/Blankj/AndroidUtilCode/blob/master/utilcode/src/main/java/com/blankj/utilcode/util/ConvertUtils.java
      */
-    private Integer dp2px(@Dp @NonNull final Integer dpValue) {
+    private Integer dp2px(@Dp @NonNull final Float dpValue) {
         final Float scale = getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
