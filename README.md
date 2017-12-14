@@ -11,7 +11,7 @@ You can download the <a href="https://raw.githubusercontent.com/hugocastelani/wa
 ## Setup
 ### Gradle dependency
 Waterfall Toolbar is available on <a href="https://jitpack.io/#hugocastelani/waterfall-toolbar">Jitpack</a>.<br>
-To add this library to your project, add the code below to your root (not module) ``build.gradle`` file:
+To add this library to your project, write the code below in your root (not module) ``build.gradle`` file:
 ```gradle
 allprojects {
     repositories {
