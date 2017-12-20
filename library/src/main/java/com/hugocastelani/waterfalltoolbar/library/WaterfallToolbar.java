@@ -71,6 +71,9 @@ public class WaterfallToolbar extends CardView {
             setScrollFinalPosition(DEFAULT_SCROLL_FINAL_ELEVATION);
         }
 
+        // just to make sure card elevation is set
+        adjustCardElevation();
+
         mIsSetup = true;
     }
 
