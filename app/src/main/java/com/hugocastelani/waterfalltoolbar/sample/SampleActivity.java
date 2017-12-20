@@ -1,7 +1,5 @@
 package com.hugocastelani.waterfalltoolbar.sample;
 
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -16,13 +14,13 @@ import com.hugocastelani.waterfalltoolbar.library.WaterfallToolbar;
 import java.util.ArrayList;
 
 public class SampleActivity extends AppCompatActivity {
-    WaterfallToolbar mWaterfallToolbar;
-    Toolbar mToolbar;
-    RecyclerView mRecyclerView;
+    private WaterfallToolbar mWaterfallToolbar;
+    private Toolbar mToolbar;
+    private RecyclerView mRecyclerView;
 
-    Float mInitialElevation;
-    Float mFinalElevation;
-    Integer mScrollFinalPosition;
+    private Float mInitialElevation;
+    private Float mFinalElevation;
+    private Integer mScrollFinalPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +35,7 @@ public class SampleActivity extends AppCompatActivity {
         }
 
         initViews();
-        prepareViews();
+        setupViews();
     }
 
     private void initViews() {
@@ -46,34 +44,31 @@ public class SampleActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recycler_view);
     }
 
-    private void prepareViews() {
-        // prepare waterfall toolbar
+    private void setupViews() {
+        // setup waterfall toolbar
         mWaterfallToolbar.addRecyclerView(mRecyclerView)
                 // setters below aren't mandatory
                 .setInitialElevationDp(mInitialElevation)
                 .setFinalElevationDp(mFinalElevation)
                 .setScrollFinalPosition(mScrollFinalPosition);
 
-        // prepare toolbar
+        // setup toolbar
         setSupportActionBar(mToolbar);
+        getSupportActionBar().setHomeAsUpIndicator(ContextCompat.getDrawable(
+                this, R.drawable.ic_arrow_back));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final Drawable upArrow = ContextCompat.getDrawable(this, R.drawable.abc_ic_ab_back_material);
-        upArrow.setColorFilter(ContextCompat.getColor(this, R.color.textColorPrimary), PorterDuff.Mode.SRC_ATOP);
-
-        getSupportActionBar().setHomeAsUpIndicator(upArrow);
-
-        // prepare recycler view
+        // setup recycler view
         final LinearLayoutManager layoutManager = new LinearLayoutManager(
                 getBaseContext(), LinearLayoutManager.VERTICAL, false);
 
-        final Adapter adapter = new Adapter(generateItemModelList());
+        final Adapter adapter = new Adapter(getSetItemModelList());
 
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(adapter);
     }
 
-    private static ArrayList<ItemModel> generateItemModelList() {
+    private static ArrayList<ItemModel> getSetItemModelList() {
         final ArrayList<ItemModel> itemModelList = new ArrayList<>();
 
         for (Integer i = 0; i < 20;) {
