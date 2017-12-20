@@ -62,6 +62,8 @@ public class WaterfallToolbar extends CardView {
             setFinalElevationPx(typedArray.getDimensionPixelSize(R.styleable.WaterfallToolbar_final_elevation, dp2px(DEFAULT_FINAL_ELEVATION_DP)));
             setScrollFinalPosition(typedArray.getInteger(R.styleable.WaterfallToolbar_scroll_final_elevation, DEFAULT_SCROLL_FINAL_ELEVATION));
 
+            typedArray.recycle();
+
         } else {
 
             setInitialElevationDp(DEFAULT_INITIAL_ELEVATION_DP);
@@ -101,7 +103,7 @@ public class WaterfallToolbar extends CardView {
 
         // gotta update elevation in case this value have
         // been set in a running and visible activity
-        if (mIsSetup) onScroll();
+        if (mIsSetup) adjustCardElevation();
 
         return this;
     }
@@ -115,7 +117,7 @@ public class WaterfallToolbar extends CardView {
 
         // gotta update elevation in case this value have
         // been set in a running and visible activity
-        if (mIsSetup) onScroll();
+        if (mIsSetup) adjustCardElevation();
 
         return this;
     }
@@ -129,7 +131,7 @@ public class WaterfallToolbar extends CardView {
 
         // gotta update elevation in case this value have
         // been set in a running and visible activity
-        if (mIsSetup) onScroll();
+        if (mIsSetup) adjustCardElevation();
 
         return this;
     }
@@ -143,7 +145,7 @@ public class WaterfallToolbar extends CardView {
 
         // gotta update elevation in case this value have
         // been set in a running and visible activity
-        if (mIsSetup) onScroll();
+        if (mIsSetup) adjustCardElevation();
 
         return this;
     }
@@ -159,64 +161,69 @@ public class WaterfallToolbar extends CardView {
 
         // gotta update elevation in case this value have
         // been set in a running and visible activity
-        if (mIsSetup) onScroll();
+        if (mIsSetup) adjustCardElevation();
 
         return this;
     }
 
-    // this represents current recycler/list/scroll view's position
-    private Integer mPosition = 0;
+    // position in which toolbar must be to reach expected shadow
+    private Integer mOrthodoxPosition = 0;
+
+    // recycler/scroll view real position
+    private Integer mRealPosition = 0;
 
     private void addRecyclerViewScrollListener() {
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                mPosition += dy;
-                onScroll();
+                // real position must always get updated
+                mRealPosition += dy;
+                mutualScrollListenerAction();
             }
         });
     }
 
     private void addScrollViewScrollListener() {
         mScrollView.getViewTreeObserver().addOnScrollChangedListener(() -> {
-            mPosition = mScrollView.getScrollY();
-            onScroll();
+            // real position must always get updated
+            mRealPosition = mScrollView.getScrollY();
+            mutualScrollListenerAction();
         });
     }
 
-    private Integer onScroll() {
-        Integer elevation;
+    /**
+     * These lines are common in both scroll listeners, so they are better joined
+     */
+    private void mutualScrollListenerAction() {
+        // mOrthodoxPosition can't be higher than mScrollFinalPosition because
+        // the last one holds the position in which shadow reaches ideal size
 
-        // shadow shall not increase if current position
-        // is higher than scroll's final position
-        if (mPosition <= mScrollFinalPosition) {
-            elevation = calculateElevation();
-            setCardElevation(elevation);
-
+        if (mRealPosition <= mScrollFinalPosition) {
+            mOrthodoxPosition = mRealPosition;
         } else {
-
-            // tweak below fixes issue #1, avoiding elevation
-            // setting problems when fast scrolling
-            final Integer mPositionBackup = mPosition;
-            mPosition = mScrollFinalPosition;
-            elevation = calculateElevation();
-            mPosition = mPositionBackup;
-
-            if (getCardElevation() != elevation) {
-                setCardElevation(elevation);
-            }
+            mOrthodoxPosition = mScrollFinalPosition;
         }
 
-        // going to avoid extra code to get current elevation in onSaveInstanceState method
-        return elevation;
+        adjustCardElevation();
     }
 
+    /**
+     * Speed up the card elevation setting
+     */
+    public void adjustCardElevation() {
+        setCardElevation(calculateElevation());
+    }
+
+    /**
+     * Calculates the elevation based on given attributes and scroll
+     * @return New calculated elevation
+     */
     private Integer calculateElevation() {
         // getting back to rule of three:
         // mFinalElevation (px) = mScrollFinalPosition (px)
-        // newElevation    (px) = mPosition            (px)
-        Integer newElevation = (mFinalElevation * mPosition) / mScrollFinalPosition;
+        // newElevation    (px) = mOrthodoxPosition    (px)
+        Integer newElevation = (mFinalElevation * mOrthodoxPosition) / mScrollFinalPosition;
 
         // avoid values under minimum value
         if (newElevation < mInitialElevation) newElevation = mInitialElevation;
@@ -224,28 +231,46 @@ public class WaterfallToolbar extends CardView {
         return newElevation;
     }
 
+    /**
+     * Saves the view's current dynamic state in a parcelable object
+     * @return A parcelable with the saved data
+     */
     @Nullable
     @Override
     protected Parcelable onSaveInstanceState() {
         final SavedState savedState = new SavedState(super.onSaveInstanceState());
-        savedState.setElevation(onScroll());
-        savedState.setPosition(mPosition);
+
+        savedState.setElevation((int) getCardElevation())
+                .setOrthodoxPosition(mOrthodoxPosition)
+                .setRealPosition(mRealPosition);
+
         return savedState;
     }
 
+    /**
+     * Restore the view's dynamic state
+     * @param state The frozen state that had previously been returned by onSaveInstanceState()
+     */
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
         final SavedState savedState = (SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
 
-        // setCardElevation method doesn't work until view is created
-        post(() -> setCardElevation(savedState.getElevation()));
-        mPosition = savedState.getPosition();
+        // setCardElevation() doesn't work until view is created
+        post(() -> {
+            setCardElevation(savedState.getElevation());
+            mOrthodoxPosition = savedState.getOrthodoxPosition();
+            mRealPosition = savedState.getRealPosition();
+        });
     }
 
+    /**
+     * Custom parcelable to store this view's dynamic state
+     */
     private static class SavedState extends BaseSavedState {
-        private Integer elevation;
-        private Integer position;
+        @Px private Integer elevation;
+        private Integer orthodoxPosition;
+        private Integer realPosition;
 
         SavedState(Parcel source) {
             super(source);
@@ -265,17 +290,29 @@ public class WaterfallToolbar extends CardView {
             return elevation;
         }
 
-        void setElevation(@NonNull final Integer elevation) {
+        SavedState setElevation(@NonNull final Integer elevation) {
             this.elevation = elevation;
+            return this;
         }
 
         @NonNull
-        public Integer getPosition() {
-            return position;
+        Integer getOrthodoxPosition() {
+            return orthodoxPosition;
         }
 
-        public void setPosition(@NonNull final Integer position) {
-            this.position = position;
+        SavedState setOrthodoxPosition(@NonNull final Integer orthodoxPosition) {
+            this.orthodoxPosition = orthodoxPosition;
+            return this;
+        }
+
+        @NonNull
+        Integer getRealPosition() {
+            return realPosition;
+        }
+
+        SavedState setRealPosition(@NonNull final Integer realPosition) {
+            this.realPosition = realPosition;
+            return this;
         }
 
         static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
@@ -290,12 +327,22 @@ public class WaterfallToolbar extends CardView {
     }
 
     /**
-     * <pre>
-     *     author: Blankj
-     *     blog  : http://blankj.com
-     *     time  : 2016/08/13
-     *     desc  : 转换相关工具类
-     * </pre>
+     * Copyright 2017 Blankj
+     *
+     * Licensed under the Apache License, Version 2.0 (the "License");
+     * you may not use this file except in compliance with the License.
+     * You may obtain a copy of the License at
+     *
+     * http://www.apache.org/licenses/LICENSE-2.0
+     *
+     * Unless required by applicable law or agreed to in writing, software
+     * distributed under the License is distributed on an "AS IS" BASIS,
+     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     * See the License for the specific language governing permissions and
+     * limitations under the License.
+     *
+     * Modifications: add some annotations, replace primitive types
+     * by objects, remove staticity and adapt resources retrieval
      *
      * Method got from:
      * https://github.com/Blankj/AndroidUtilCode/blob/master/utilcode/src/main/java/com/blankj/utilcode/util/ConvertUtils.java
