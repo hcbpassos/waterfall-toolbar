@@ -25,7 +25,7 @@ And this one to your module `build.gradle` file:
 ``` gradle
 dependencies {
     ...
-    implementation 'com.github.hugocastelani:waterfall-toolbar:0.3'
+    implementation 'com.github.hugocastelani:waterfall-toolbar:0.3.1'
 }
 ```
 
@@ -69,18 +69,18 @@ Well, there are people who follow standards and people who create their standard
 Note: sample project provides a nice environment to test all these things. Maybe you should give it a try.  
 
 ### Initial elevation
-The elevation with which the toolbar starts. Default value: 1 dp.<br>
-Through Java: `waterfallToolbar.setInitialElevationDp(0);`<br>
-Through XML: `app:initial_elevation="0dp"`
+The elevation with which the toolbar starts. Default value: 0 dp.<br>
+Through Java: `waterfallToolbar.setInitialElevationDp(1);`<br>
+Through XML: `app:initial_elevation="1dp"`
 
 Result:<br><br>
 <img src="/.github/initial.gif" alt="New initial shadow"/>
 
-As you can see, that initial tiny shadow no longer exists.<br>
-Note: Waterfall Toolbar extends CardView, and its elevation in taken seriously by Android. If you set elevation as 0 and there's another view below it, Waterfall Toolbar is going to be overlaid. Fortunately, if you set the views' limits properly, you won't have any related trouble.  
+As you can see, there's now a tiny initial shadow.<br>
+Note: Waterfall Toolbar extends CardView, and its elevation in taken seriously by Android. Since elevation is set to 0dp, if there's another view below it, Waterfall Toolbar is going to be overlaid. Fortunately, if you set the views' limits properly, you won't have any related trouble.  
 
 ### Final elevation
-The elevation the toolbar gets when it reaches final scroll elevation. Default value: 6 dp.<br>
+The elevation the toolbar gets when it reaches final scroll elevation. Default value: 4 dp.<br>
 Through Java: `waterfallToolbar.setFinalElevationDp(10);`<br>
 Through XML: `app:final_elevation="10dp"`
 

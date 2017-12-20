@@ -31,8 +31,8 @@ public class WaterfallToolbar extends CardView {
     private Integer mFinalElevation;
     private Integer mScrollFinalPosition;
 
-    public static final Float DEFAULT_INITIAL_ELEVATION_DP = 1f;
-    public static final Float DEFAULT_FINAL_ELEVATION_DP = 6f;
+    public static final Float DEFAULT_INITIAL_ELEVATION_DP = 0f;
+    public static final Float DEFAULT_FINAL_ELEVATION_DP = 4f;
     public static final Integer DEFAULT_SCROLL_FINAL_ELEVATION = 6;
 
     public Boolean mIsSetup = false;

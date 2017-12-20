@@ -55,7 +55,7 @@
             app:dsb_progressColor="?attr/colorAccent"
             app:dsb_indicatorColor="?attr/colorAccent"
             app:dsb_max="10"
-            app:dsb_value="1"/>
+            app:dsb_value="0"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -78,9 +78,9 @@
             android:paddingBottom="24dp"
             app:dsb_progressColor="?attr/colorAccent"
             app:dsb_indicatorColor="?attr/colorAccent"
-            app:dsb_min="2"
-            app:dsb_max="12"
-            app:dsb_value="6"/>
+            app:dsb_min="0"
+            app:dsb_max="10"
+            app:dsb_value="4"/>
 
         <TextView
             android:layout_width="match_parent"
