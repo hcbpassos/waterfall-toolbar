@@ -6,7 +6,7 @@
 [![License](https://img.shields.io/github/license/hugocastelani/waterfall-toolbar.svg)](https://github.com/hugocastelani/waterfall-toolbar/blob/master/LICENSE)<br>
 Waterfall Toolbar is an Android version of Material Design's web component waterfall toolbar. Basically, what it does is dynamize an ordinary Toolbar, increasing and decreasing its shadow when an associated view is scrolled.<br>
 You can download the <a href="https://raw.githubusercontent.com/hugocastelani/waterfall-toolbar/master/sample.apk">sample.apk</a> to get a better notion of what's going on.<br><br>
-<img src="/.github/sample.gif" alt="Sample"/>
+<img src="/.github/sample.gif" alt="Sample" width="270"/>
 
 ## Setup
 ### Gradle dependency
@@ -74,7 +74,7 @@ Through Java: `waterfallToolbar.setInitialElevationDp(1);`<br>
 Through XML: `app:initial_elevation="1dp"`
 
 Result:<br><br>
-<img src="/.github/initial.gif" alt="New initial shadow"/>
+<img src="/.github/initial.gif" alt="New initial shadow" width="270"/>
 
 As you can see, there's now a tiny initial shadow.<br>
 Note: Waterfall Toolbar extends CardView, and its elevation in taken seriously by Android. Since elevation is set to 0dp, if there's another view below it, Waterfall Toolbar is going to be overlaid. Fortunately, if you set the views' limits properly, you won't have any related trouble.  
@@ -85,7 +85,7 @@ Through Java: `waterfallToolbar.setFinalElevationDp(10);`<br>
 Through XML: `app:final_elevation="10dp"`
 
 Result:<br><br>
-<img src="/.github/final.gif" alt="New final shadow"/>
+<img src="/.github/final.gif" alt="New final shadow" width="270"/>
 
 As result, the final shadow gets much bigger.
 
@@ -100,8 +100,8 @@ Through Java: `waterfallToolbar.setScrollFinalPosition(20);`<br>
 Through XML: `app:scroll_final_elevation="20"`
 
 Respective results:<br><br>
-<img src="/.github/short.gif" alt="Short value to scroll final position"/>
-<img src="/.github/long.gif" alt="Long value to scroll final position"/>
+<img src="/.github/short.gif" alt="Short value to scroll final position" width="270"/>
+<img src="/.github/long.gif" alt="Long value to scroll final position" width="270"/>
 
 Now the final shadow takes much less and much longer to completely appear, respectively.
 
