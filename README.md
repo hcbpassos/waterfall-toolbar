@@ -31,7 +31,7 @@ dependencies {
 
 ## Implementation
 Implementing Waterfall Toolbar is quite simple. All you gotta do is add it to your layout via XML or Java and refer a RecyclerView or a ScrollView.<br>
-Your XML code: 
+Your XML code:
 ```xml
 <com.hugocastelani.waterfalltoolbar.library.WaterfallToolbar
     android:id="@+id/waterfall_toolbar"
