@@ -6,7 +6,7 @@
 [![License](https://img.shields.io/github/license/hugocastelani/waterfall-toolbar.svg)](https://github.com/hugocastelani/waterfall-toolbar/blob/master/LICENSE)<br>
 Waterfall Toolbar is an Android version of Material Design's web component waterfall toolbar. Basically, what it does is dynamize an ordinary Toolbar, increasing and decreasing its shadow when an associated view is scrolled.<br>
 You can download the <a href="https://raw.githubusercontent.com/hugocastelani/waterfall-toolbar/master/sample.apk">sample.apk</a> to get a better notion of what's going on.<br><br>
-<img src="/.github/sample.gif" alt="Sample" width="270"/>
+<iframe src="https://giphy.com/embed/3o6nV9SerSYfR05nQk" width="270" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/3o6nV9SerSYfR05nQk">via GIPHY</a></p>
 
 ## Setup
 ### Gradle dependency
