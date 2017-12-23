@@ -4,6 +4,8 @@
     <string name="main_activity_label">@string/app_name</string>
     <string name="sample_activity_label">Sample</string>
 
+    <string name="see_on_github">See on GitHub</string>
+
     <string name="initial_elevation_title">Initial elevation (dp)</string>
     <string name="initial_elevation_summary">The elevation with which the toolbar starts</string>
 
