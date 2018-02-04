@@ -24,7 +24,7 @@ And this one to your module `build.gradle` file:
 ``` gradle
 dependencies {
     ...
-    implementation 'com.github.hugocastelani:waterfall-toolbar:0.3.2'
+    implementation 'com.github.hugocastelani:waterfall-toolbar:0.3.3'
 }
 ```
 
@@ -89,14 +89,14 @@ Result:<br><br>
 As result, the final shadow gets much bigger.
 
 ### Scroll final position
-The percentage of the screen's height that is going to be scrolled to reach the final elevation. Default value: 6%.<br>
+The percentage of the screen's height that is going to be scrolled to reach the final elevation. Default value: 12%.<br>
 Short value:<br>
-Through Java: `waterfallToolbar.setScrollFinalPosition(2);`<br>
-Through XML: `app:scroll_final_elevation="2"`
+Through Java: `waterfallToolbar.setScrollFinalPosition(4);`<br>
+Through XML: `app:scroll_final_elevation="4"`
 
 Long value:<br>
-Through Java: `waterfallToolbar.setScrollFinalPosition(20);`<br>
-Through XML: `app:scroll_final_elevation="20"`
+Through Java: `waterfallToolbar.setScrollFinalPosition(40);`<br>
+Through XML: `app:scroll_final_elevation="40"`
 
 Respective results:<br><br>
 <img src="/.github/short.gif" alt="Short value to scroll final position" width="270"/>

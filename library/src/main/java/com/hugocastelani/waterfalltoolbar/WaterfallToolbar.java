@@ -34,7 +34,7 @@ public class WaterfallToolbar extends CardView {
 
     public final Dp defaultInitialElevation = new Dp(0f, density);
     public final Dp defaultFinalElevation = new Dp(4f, density);
-    public final Integer defaultScrollFinalElevation = 6;
+    public final Integer defaultScrollFinalElevation = 12;
 
     public Boolean mIsSetup = false;
 
