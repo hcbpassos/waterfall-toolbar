@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.hugocastelani.waterfalltoolbar.WaterfallToolbar;
+import com.hugocastelani.waterfalltoolbar.domain.Dp;
 import com.hugocastelani.waterfalltoolbar.sample.R;
 
 import java.util.ArrayList;
@@ -45,11 +46,13 @@ public class SampleActivity extends AppCompatActivity {
     }
 
     private void setupViews() {
+        final float density = getResources().getDisplayMetrics().density;
+
         // setup waterfall toolbar
         mWaterfallToolbar.addRecyclerView(mRecyclerView)
                 // setters below aren't mandatory
-                .setInitialElevationDp(mInitialElevation)
-                .setFinalElevationDp(mFinalElevation)
+                .setInitialElevation(new Dp(mInitialElevation, density).toPixel())
+                .setFinalElevation(new Dp(mFinalElevation, density).toPixel())
                 .setScrollFinalPosition(mScrollFinalPosition);
 
         // setup toolbar

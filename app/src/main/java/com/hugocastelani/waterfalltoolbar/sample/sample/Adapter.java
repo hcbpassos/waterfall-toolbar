@@ -41,11 +41,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
         return itemModelList.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    class MyViewHolder extends RecyclerView.ViewHolder {
         final TextView title;
         final TextView summary;
 
-        public MyViewHolder(View itemView) {
+        MyViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(android.R.id.title);
             summary = itemView.findViewById(android.R.id.summary);

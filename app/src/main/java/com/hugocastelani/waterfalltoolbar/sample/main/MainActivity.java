@@ -17,6 +17,7 @@ import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
 public class MainActivity extends AppCompatActivity {
     private Toolbar mToolbar;
+    private WaterfallToolbar mWaterfallToolbar;
 
     private DiscreteSeekBar mInitialElevationSeekBar;
     private DiscreteSeekBar mFinalElevationSeekBar;
@@ -35,7 +36,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        mToolbar = findViewById(R.id.am_waterfall_toolbar);
+        mToolbar = findViewById(R.id.am_toolbar);
+        mWaterfallToolbar = findViewById(R.id.am_waterfall_toolbar);
         mInitialElevationSeekBar = findViewById(R.id.am_initial_elevation_seek_bar);
         mFinalElevationSeekBar = findViewById(R.id.am_final_elevation_seek_bar);
         mScrollFinalPositionSeekBar = findViewById(R.id.am_scroll_final_position_seek_bar);
@@ -65,13 +67,13 @@ public class MainActivity extends AppCompatActivity {
         mRestoreDefaultButton.setOnClickListener(view -> {
             mFinalElevationSeekBar.setMin(0);
             mFinalElevationSeekBar.setMax(10);
-            mInitialElevationSeekBar.setProgress(WaterfallToolbar.DEFAULT_INITIAL_ELEVATION_DP.intValue());
+            mInitialElevationSeekBar.setProgress((int) mWaterfallToolbar.defaultInitialElevation.getValue());
 
-            mFinalElevationSeekBar.setMin(WaterfallToolbar.DEFAULT_INITIAL_ELEVATION_DP.intValue());
-            mFinalElevationSeekBar.setMax(WaterfallToolbar.DEFAULT_INITIAL_ELEVATION_DP.intValue() + 10);
-            mFinalElevationSeekBar.setProgress(WaterfallToolbar.DEFAULT_FINAL_ELEVATION_DP.intValue());
+            mFinalElevationSeekBar.setMin((int) mWaterfallToolbar.defaultInitialElevation.getValue());
+            mFinalElevationSeekBar.setMax((int) mWaterfallToolbar.defaultInitialElevation.getValue() + 10);
+            mFinalElevationSeekBar.setProgress((int) mWaterfallToolbar.defaultFinalElevation.getValue());
 
-            mScrollFinalPositionSeekBar.setProgress(WaterfallToolbar.DEFAULT_SCROLL_FINAL_ELEVATION);
+            mScrollFinalPositionSeekBar.setProgress(mWaterfallToolbar.defaultScrollFinalElevation);
         });
 
         // setup done button
