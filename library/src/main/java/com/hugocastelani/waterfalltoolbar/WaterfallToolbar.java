@@ -7,12 +7,14 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.Px;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.widget.ScrollView;
+
+import com.hugocastelani.waterfalltoolbar.domain.Dp;
+import com.hugocastelani.waterfalltoolbar.domain.Pixel;
 
 /**
  * Created by Hugo Castelani
@@ -24,13 +26,15 @@ public class WaterfallToolbar extends CardView {
     private RecyclerView mRecyclerView;
     private ScrollView mScrollView;
 
-    private Integer mInitialElevation;
-    private Integer mFinalElevation;
+    private Pixel mInitialElevation;
+    private Pixel mFinalElevation;
     private Integer mScrollFinalPosition;
 
-    public static final Float DEFAULT_INITIAL_ELEVATION_DP = 0f;
-    public static final Float DEFAULT_FINAL_ELEVATION_DP = 4f;
-    public static final Integer DEFAULT_SCROLL_FINAL_ELEVATION = 6;
+    private final float density = getResources().getDisplayMetrics().density;
+
+    public final Dp defaultInitialElevation = new Dp(0f, density);
+    public final Dp defaultFinalElevation = new Dp(4f, density);
+    public final Integer defaultScrollFinalElevation = 6;
 
     public Boolean mIsSetup = false;
 
@@ -53,19 +57,31 @@ public class WaterfallToolbar extends CardView {
         setRadius(0);    // same as cardCornerRadius
 
         if (context != null && attrs != null) {
-            final TypedArray typedArray = context.obtainStyledAttributes(attrs, com.hugocastelani.waterfalltoolbar.R.styleable.WaterfallToolbar);
+            final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.WaterfallToolbar);
 
-            setInitialElevationPx(typedArray.getDimensionPixelSize(com.hugocastelani.waterfalltoolbar.R.styleable.WaterfallToolbar_initial_elevation, dp2px(DEFAULT_INITIAL_ELEVATION_DP)));
-            setFinalElevationPx(typedArray.getDimensionPixelSize(com.hugocastelani.waterfalltoolbar.R.styleable.WaterfallToolbar_final_elevation, dp2px(DEFAULT_FINAL_ELEVATION_DP)));
-            setScrollFinalPosition(typedArray.getInteger(com.hugocastelani.waterfalltoolbar.R.styleable.WaterfallToolbar_scroll_final_elevation, DEFAULT_SCROLL_FINAL_ELEVATION));
+            final Integer initialElevation = typedArray.getDimensionPixelSize(
+                    R.styleable.WaterfallToolbar_initial_elevation,
+                    defaultInitialElevation.toPixel().getValue());
+
+            final Integer finalElevation = typedArray.getDimensionPixelSize(
+                    R.styleable.WaterfallToolbar_final_elevation,
+                    defaultFinalElevation.toPixel().getValue());
+
+            final Integer scrollFinalPosition = typedArray.getInteger(
+                    R.styleable.WaterfallToolbar_scroll_final_elevation,
+                    defaultScrollFinalElevation);
+
+            setInitialElevation(new Pixel(initialElevation, density));
+            setFinalElevation(new Pixel(finalElevation, density));
+            setScrollFinalPosition(scrollFinalPosition);
 
             typedArray.recycle();
 
         } else {
 
-            setInitialElevationDp(DEFAULT_INITIAL_ELEVATION_DP);
-            setFinalElevationDp(DEFAULT_FINAL_ELEVATION_DP);
-            setScrollFinalPosition(DEFAULT_SCROLL_FINAL_ELEVATION);
+            setInitialElevation(defaultInitialElevation.toPixel());
+            setFinalElevation(defaultFinalElevation.toPixel());
+            setScrollFinalPosition(defaultScrollFinalElevation);
         }
 
         // just to make sure card elevation is set
@@ -95,11 +111,11 @@ public class WaterfallToolbar extends CardView {
     }
 
     /**
-     * @param value The elevation (in dp) with which the toolbar starts
+     * @param pixel The elevation with which the toolbar starts
      * @return Own object
      */
-    public WaterfallToolbar setInitialElevationDp(@NonNull final Float value) {
-        mInitialElevation = dp2px(value);
+    public WaterfallToolbar setInitialElevation(@NonNull final Pixel pixel) {
+        mInitialElevation = pixel;
 
         // gotta update elevation in case this value have
         // been set in a running and visible activity
@@ -109,39 +125,11 @@ public class WaterfallToolbar extends CardView {
     }
 
     /**
-     * @param value The elevation (in px) with which the toolbar starts
+     * @param pixel The elevation the toolbar gets when it reaches final scroll elevation
      * @return Own object
      */
-    public WaterfallToolbar setInitialElevationPx(@Px @NonNull final Integer value) {
-        mInitialElevation = value;
-
-        // gotta update elevation in case this value have
-        // been set in a running and visible activity
-        if (mIsSetup) adjustCardElevation();
-
-        return this;
-    }
-
-    /**
-     * @param value The elevation (in dp) the toolbar gets when it reaches final scroll elevation
-     * @return Own object
-     */
-    public WaterfallToolbar setFinalElevationDp(@NonNull final Float value) {
-        mFinalElevation = dp2px(value);
-
-        // gotta update elevation in case this value have
-        // been set in a running and visible activity
-        if (mIsSetup) adjustCardElevation();
-
-        return this;
-    }
-
-    /**
-     * @param value The elevation (in px) the toolbar gets when it reaches final scroll elevation
-     * @return Own object
-     */
-    public WaterfallToolbar setFinalElevationPx(@Px @NonNull final Integer value) {
-        mFinalElevation = value;
+    public WaterfallToolbar setFinalElevation(@NonNull final Pixel pixel) {
+        mFinalElevation = pixel;
 
         // gotta update elevation in case this value have
         // been set in a running and visible activity
@@ -157,7 +145,7 @@ public class WaterfallToolbar extends CardView {
      */
     public WaterfallToolbar setScrollFinalPosition(@NonNull final Integer value) {
         final Integer screenHeight = getResources().getDisplayMetrics().heightPixels;
-        mScrollFinalPosition = dp2px(screenHeight * (value / 100.0f));
+        mScrollFinalPosition = Math.round(screenHeight * (value / 100.0f));
 
         // gotta update elevation in case this value have
         // been set in a running and visible activity
@@ -167,10 +155,10 @@ public class WaterfallToolbar extends CardView {
     }
 
     // position in which toolbar must be to reach expected shadow
-    private Integer mOrthodoxPosition = 0;
+    private Pixel mOrthodoxPosition = new Pixel(0, density);
 
     // recycler/scroll view real position
-    private Integer mRealPosition = 0;
+    private Pixel mRealPosition = new Pixel(0, density);
 
     private void addRecyclerViewScrollListener() {
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -178,7 +166,7 @@ public class WaterfallToolbar extends CardView {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 // real position must always get updated
-                mRealPosition += dy;
+                mRealPosition.setValue(mRealPosition.getValue() + dy);
                 mutualScrollListenerAction();
             }
         });
@@ -187,7 +175,7 @@ public class WaterfallToolbar extends CardView {
     private void addScrollViewScrollListener() {
         mScrollView.getViewTreeObserver().addOnScrollChangedListener(() -> {
             // real position must always get updated
-            mRealPosition = mScrollView.getScrollY();
+            mRealPosition.setValue(mScrollView.getScrollY());
             mutualScrollListenerAction();
         });
     }
@@ -199,10 +187,10 @@ public class WaterfallToolbar extends CardView {
         // mOrthodoxPosition can't be higher than mScrollFinalPosition because
         // the last one holds the position in which shadow reaches ideal size
 
-        if (mRealPosition <= mScrollFinalPosition) {
-            mOrthodoxPosition = mRealPosition;
+        if (mRealPosition.getValue() <= mScrollFinalPosition) {
+            mOrthodoxPosition.setValue(mRealPosition.getValue());
         } else {
-            mOrthodoxPosition = mScrollFinalPosition;
+            mOrthodoxPosition.setValue(mScrollFinalPosition);
         }
 
         adjustCardElevation();
@@ -212,23 +200,23 @@ public class WaterfallToolbar extends CardView {
      * Speed up the card elevation setting
      */
     public void adjustCardElevation() {
-        setCardElevation(calculateElevation());
+        setCardElevation(calculateElevation().getValue());
     }
 
     /**
      * Calculates the elevation based on given attributes and scroll
      * @return New calculated elevation
      */
-    private Integer calculateElevation() {
+    private Pixel calculateElevation() {
         // getting back to rule of three:
-        // mFinalElevation (px) = mScrollFinalPosition (px)
-        // newElevation    (px) = mOrthodoxPosition    (px)
-        Integer newElevation = (mFinalElevation * mOrthodoxPosition) / mScrollFinalPosition;
+        // mFinalElevation = mScrollFinalPosition
+        // newElevation    = mOrthodoxPosition
+        Integer newElevation = (mFinalElevation.getValue() * mOrthodoxPosition.getValue()) / mScrollFinalPosition;
 
         // avoid values under minimum value
-        if (newElevation < mInitialElevation) newElevation = mInitialElevation;
+        if (newElevation < mInitialElevation.getValue()) newElevation = mInitialElevation.getValue();
 
-        return newElevation;
+        return new Pixel(newElevation, density);
     }
 
     /**
@@ -268,9 +256,9 @@ public class WaterfallToolbar extends CardView {
      * Custom parcelable to store this view's dynamic state
      */
     private static class SavedState extends BaseSavedState {
-        @Px private Integer elevation;
-        private Integer orthodoxPosition;
-        private Integer realPosition;
+        private Integer elevation;
+        private Pixel orthodoxPosition;
+        private Pixel realPosition;
 
         SavedState(Parcel source) {
             super(source);
@@ -296,21 +284,21 @@ public class WaterfallToolbar extends CardView {
         }
 
         @NonNull
-        Integer getOrthodoxPosition() {
+        Pixel getOrthodoxPosition() {
             return orthodoxPosition;
         }
 
-        SavedState setOrthodoxPosition(@NonNull final Integer orthodoxPosition) {
+        SavedState setOrthodoxPosition(@NonNull final Pixel orthodoxPosition) {
             this.orthodoxPosition = orthodoxPosition;
             return this;
         }
 
         @NonNull
-        Integer getRealPosition() {
+        Pixel getRealPosition() {
             return realPosition;
         }
 
-        SavedState setRealPosition(@NonNull final Integer realPosition) {
+        SavedState setRealPosition(@NonNull final Pixel realPosition) {
             this.realPosition = realPosition;
             return this;
         }
@@ -324,31 +312,5 @@ public class WaterfallToolbar extends CardView {
                 return new SavedState[size];
             }
         };
-    }
-
-    /**
-     * Copyright 2017 Blankj
-     *
-     * Licensed under the Apache License, Version 2.0 (the "License");
-     * you may not use this file except in compliance with the License.
-     * You may obtain a copy of the License at
-     *
-     * http://www.apache.org/licenses/LICENSE-2.0
-     *
-     * Unless required by applicable law or agreed to in writing, software
-     * distributed under the License is distributed on an "AS IS" BASIS,
-     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-     * See the License for the specific language governing permissions and
-     * limitations under the License.
-     *
-     * Modifications: add some annotations, replace primitive types
-     * by objects, remove staticity and adapt resources retrieval
-     *
-     * Method got from:
-     * https://github.com/Blankj/AndroidUtilCode/blob/master/utilcode/src/main/java/com/blankj/utilcode/util/ConvertUtils.java
-     */
-    private Integer dp2px(@NonNull final Float dpValue) {
-        final Float scale = getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
     }
 }
