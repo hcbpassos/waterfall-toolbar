@@ -32,7 +32,7 @@ dependencies {
 Implementing Waterfall Toolbar is quite simple. All you gotta do is add it to your layout via XML or Java and refer a RecyclerView or a ScrollView.<br>
 Your XML code:
 ```xml
-<com.hugocastelani.waterfalltoolbar.WaterfallView
+<com.hugocastelani.waterfalltoolbar.WaterfallToolbar
     android:id="@+id/waterfall_toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -42,7 +42,7 @@ Your XML code:
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"/>
         
-</com.hugocastelani.waterfalltoolbar.WaterfallView>
+</com.hugocastelani.waterfalltoolbar.WaterfallToolbar>
 ```
 
 Your Java code:
