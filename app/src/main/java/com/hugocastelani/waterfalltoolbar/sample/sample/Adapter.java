@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.hugocastelani.waterfalltoolbar.R;
+import com.hugocastelani.waterfalltoolbar.sample.R;
 
 import java.util.ArrayList;
 
