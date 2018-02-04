@@ -105,7 +105,7 @@
             app:dsb_indicatorColor="?attr/colorAccent"
             app:dsb_min="1"
             app:dsb_max="20"
-            app:dsb_value="6"/>
+            app:dsb_value="12"/>
 
     </LinearLayout>
 
