@@ -1,4 +1,4 @@
-package com.hugocastelani.waterfalltoolbar.sample;
+package com.hugocastelani.waterfalltoolbar.sample.sample;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -26,8 +26,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item, parent, false);
+        final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
         return new MyViewHolder(view);
     }
 

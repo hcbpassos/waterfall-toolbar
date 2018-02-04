@@ -3,14 +3,14 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion "27.0.2"
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
-        applicationId "com.hugocastelani.waterfalltoolbar"
+        applicationId "com.hugocastelani.waterfalltoolbar.sample"
         minSdkVersion 14
         targetSdkVersion 27
         versionCode 1
-        versionName "0.3.1"
+        versionName "0.3.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

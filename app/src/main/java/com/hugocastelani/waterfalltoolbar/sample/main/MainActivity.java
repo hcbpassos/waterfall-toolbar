@@ -1,4 +1,4 @@
-package com.hugocastelani.waterfalltoolbar.main;
+package com.hugocastelani.waterfalltoolbar.sample.main;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -9,9 +9,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
-import com.hugocastelani.waterfalltoolbar.R;
-import com.hugocastelani.waterfalltoolbar.library.WaterfallToolbar;
-import com.hugocastelani.waterfalltoolbar.sample.SampleActivity;
+import com.hugocastelani.waterfalltoolbar.WaterfallToolbar;
+import com.hugocastelani.waterfalltoolbar.sample.R;
+import com.hugocastelani.waterfalltoolbar.sample.sample.SampleActivity;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        mToolbar = findViewById(R.id.am_toolbar);
+        mToolbar = findViewById(R.id.am_waterfall_toolbar);
         mInitialElevationSeekBar = findViewById(R.id.am_initial_elevation_seek_bar);
         mFinalElevationSeekBar = findViewById(R.id.am_final_elevation_seek_bar);
         mScrollFinalPositionSeekBar = findViewById(R.id.am_scroll_final_position_seek_bar);

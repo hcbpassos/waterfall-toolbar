@@ -1,4 +1,4 @@
-package com.hugocastelani.waterfalltoolbar.sample;
+package com.hugocastelani.waterfalltoolbar.sample.sample;
 
 import android.support.annotation.NonNull;
 

@@ -2,8 +2,7 @@
 
 ## Waterfall Toolbar
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Waterfall%20Toolbar-brightgreen.svg)](https://android-arsenal.com/details/1/6232)
-[![JitPack](https://jitpack.io/v/hugocastelani/waterfall-toolbar.svg)](https://jitpack.io/#hugocastelani/waterfall-toolbar)
-[![License](https://img.shields.io/github/license/hugocastelani/waterfall-toolbar.svg)](https://github.com/hugocastelani/waterfall-toolbar/blob/master/LICENSE)<br>
+[![JitPack](https://jitpack.io/v/hugocastelani/waterfall-toolbar.svg)](https://jitpack.io/#hugocastelani/waterfall-toolbar)<br>
 Waterfall Toolbar is an Android version of Material Design's web component waterfall toolbar. Basically, what it does is dynamize an ordinary Toolbar, increasing and decreasing its shadow when an associated view is scrolled.<br>
 You can download the <a href="https://raw.githubusercontent.com/hugocastelani/waterfall-toolbar/master/sample.apk">sample.apk</a> to get a better notion of what's going on.<br><br>
 <img src="/.github/sample.gif" alt="Sample" width="270"/>
@@ -33,7 +32,7 @@ dependencies {
 Implementing Waterfall Toolbar is quite simple. All you gotta do is add it to your layout via XML or Java and refer a RecyclerView or a ScrollView.<br>
 Your XML code:
 ```xml
-<com.hugocastelani.waterfalltoolbar.library.WaterfallToolbar
+<com.hugocastelani.waterfalltoolbar.WaterfallView
     android:id="@+id/waterfall_toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -43,7 +42,7 @@ Your XML code:
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"/>
         
-</com.hugocastelani.waterfalltoolbar.library.WaterfallToolbar>
+</com.hugocastelani.waterfalltoolbar.WaterfallView>
 ```
 
 Your Java code:
@@ -55,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ...
         WaterfallToolbar waterfallToolbar = (WaterfallToolbar) findViewById(R.id.waterfall_toolbar);
-        waterfallToolbar.addRecyclerView(mRecyclerView);
+        waterfallToolbar.addRecyclerView(recyclerView);
     }
     
 }

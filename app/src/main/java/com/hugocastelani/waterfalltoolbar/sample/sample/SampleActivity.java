@@ -1,4 +1,4 @@
-package com.hugocastelani.waterfalltoolbar.sample;
+package com.hugocastelani.waterfalltoolbar.sample.sample;
 
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -8,8 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.hugocastelani.waterfalltoolbar.R;
-import com.hugocastelani.waterfalltoolbar.library.WaterfallToolbar;
+import com.hugocastelani.waterfalltoolbar.WaterfallToolbar;
+import com.hugocastelani.waterfalltoolbar.sample.R;
 
 import java.util.ArrayList;
 
@@ -39,9 +39,9 @@ public class SampleActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        mWaterfallToolbar = findViewById(R.id.waterfall_toolbar);
-        mToolbar = findViewById(R.id.toolbar);
-        mRecyclerView = findViewById(R.id.recycler_view);
+        mWaterfallToolbar = findViewById(R.id.as_waterfall_toolbar);
+        mToolbar = findViewById(R.id.as_toolbar);
+        mRecyclerView = findViewById(R.id.as_recycler_view);
     }
 
     private void setupViews() {

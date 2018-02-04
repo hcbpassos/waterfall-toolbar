@@ -3,23 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.hugocastelani.waterfalltoolbar.sample.SampleActivity"
+    tools:context="com.hugocastelani.waterfalltoolbar.sample.sample.SampleActivity"
     android:orientation="vertical">
 
-    <com.hugocastelani.waterfalltoolbar.library.WaterfallToolbar
-        android:id="@+id/waterfall_toolbar"
+    <com.hugocastelani.waterfalltoolbar.WaterfallToolbar
+        android:id="@+id/as_waterfall_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/as_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"/>
 
-    </com.hugocastelani.waterfalltoolbar.library.WaterfallToolbar>
+    </com.hugocastelani.waterfalltoolbar.WaterfallToolbar>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+        android:id="@+id/as_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
