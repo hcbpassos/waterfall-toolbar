@@ -14,14 +14,14 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@android:id/title"
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="22sp"
             android:textColor="?android:textColorPrimary"/>
 
         <TextView
-            android:id="@android:id/summary"
+            android:id="@+id/summary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"/>
