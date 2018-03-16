@@ -245,6 +245,11 @@ open class WaterfallToolbar : CardView {
      * @param state The frozen state that had previously been returned by onSaveInstanceState()
      */
     override fun onRestoreInstanceState(state: Parcelable) {
+        if (state !is SavedState) {
+            super.onRestoreInstanceState(state)
+            return
+        }
+
         val savedState = state as SavedState
         super.onRestoreInstanceState(savedState.superState)
 
