@@ -257,7 +257,7 @@ open class WaterfallToolbar : CardView {
                 realPosition = state.realPosition!!
             }
             
-        } else  {
+        } else {
             
             super.onRestoreInstanceState(state)
         }
