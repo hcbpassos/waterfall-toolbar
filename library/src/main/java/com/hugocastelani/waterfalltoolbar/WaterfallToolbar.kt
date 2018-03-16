@@ -245,21 +245,21 @@ open class WaterfallToolbar : CardView {
      * @param state The frozen state that had previously been returned by onSaveInstanceState()
      */
     override fun onRestoreInstanceState(state: Parcelable) {
-        if (state !is SavedState) {
+        if (state is SavedState) {
+            super.onRestoreInstanceState(state.superState)
+
+            // setting card elevation doesn't work until view is created
+            post {
+                // it's safe to use "!!" here, since savedState will
+                // always store values properly set in onSaveInstanceState()
+                cardElevation = state.elevation!!.toFloat()
+                orthodoxPosition = state.orthodoxPosition!!
+                realPosition = state.realPosition!!
+            }
+            
+        } else  {
+            
             super.onRestoreInstanceState(state)
-            return
-        }
-
-        val savedState = state as SavedState
-        super.onRestoreInstanceState(savedState.superState)
-
-        // setCardElevation() doesn't work until view is created
-        post {
-            // it's safe to use "!!" here, since savedState will
-            // always store values properly set in onSaveInstanceState()
-            cardElevation = savedState.elevation!!.toFloat()
-            orthodoxPosition = savedState.orthodoxPosition!!
-            realPosition = savedState.realPosition!!
         }
     }
 
