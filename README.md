@@ -27,7 +27,7 @@ And this one to your module `build.gradle` file:
 ``` gradle
 dependencies {
     ...
-    implementation 'com.github.hugocastelani:waterfall-toolbar:0.4.0'
+    implementation 'com.github.hugocastelani:waterfall-toolbar:0.5.0'
 }
 ```
 
@@ -41,7 +41,7 @@ Your XML code:
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"/>
@@ -149,7 +149,7 @@ If you enjoy my work and have lots of money left over, please support me via Pay
 ## License
     MIT License
      
-    Copyright (c) 2017 Hugo Castelani
+    Copyright (c) 2019 Hugo Castelani
      
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
