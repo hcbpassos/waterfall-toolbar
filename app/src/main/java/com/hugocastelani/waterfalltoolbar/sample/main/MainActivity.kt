@@ -3,9 +3,9 @@ package com.hugocastelani.waterfalltoolbar.sample.main
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 
 import com.hugocastelani.waterfalltoolbar.sample.R
 import com.hugocastelani.waterfalltoolbar.sample.sample.SampleActivity
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         // setup restore default button
-        am_restore_default_button.setOnClickListener { _ ->
+        am_restore_default_button.setOnClickListener {
             am_final_elevation_seek_bar.min = 0
             am_final_elevation_seek_bar.max = 10
             am_initial_elevation_seek_bar.progress = am_waterfall_toolbar.defaultInitialElevation.toDp().value.toInt()
@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // setup done button
-        am_done_button.setOnClickListener { _ ->
+        am_done_button.setOnClickListener {
             val bundle = Bundle()
             bundle.putInt("initial_elevation", am_initial_elevation_seek_bar.progress)
             bundle.putInt("final_elevation", am_final_elevation_seek_bar.progress)
@@ -70,12 +70,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.see_on_github) {
+        return if (item.itemId == R.id.see_on_github) {
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/HugoCastelani/waterfall-toolbar"))
             startActivity(browserIntent)
-            return true
+            true
         } else {
-            return super.onOptionsItemSelected(item)
+            super.onOptionsItemSelected(item)
         }
     }
 }

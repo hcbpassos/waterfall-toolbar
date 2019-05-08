@@ -15,9 +15,7 @@ class ItemModel() {
         this.summary = summary
     }
 
-    override fun toString(): String {
-        return "$title\n$summary"
-    }
+    override fun toString(): String = "$title\n$summary"
 }
 
 fun itemModel(init: ItemModel.() -> Unit): ItemModel {

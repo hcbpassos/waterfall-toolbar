@@ -4,12 +4,13 @@ import android.content.Context
 import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
-import android.support.annotation.RequiresApi
-import android.support.v7.widget.CardView
-import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.ScrollView
+import androidx.annotation.RequiresApi
+import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  * Created by Hugo Castelani
@@ -252,7 +253,7 @@ open class WaterfallToolbar : CardView {
      * Saves the view's current dynamic state in a parcelable object
      * @return A parcelable with the saved data
      */
-    override fun onSaveInstanceState(): Parcelable? {
+    override fun onSaveInstanceState(): Parcelable {
         val savedState = SavedState(super.onSaveInstanceState())
 
         savedState.elevation = cardElevation.toInt()
@@ -278,9 +279,9 @@ open class WaterfallToolbar : CardView {
                 orthodoxPosition = state.orthodoxPosition!!
                 realPosition = state.realPosition!!
             }
-            
+
         } else {
-            
+
             super.onRestoreInstanceState(state)
         }
     }
@@ -288,7 +289,7 @@ open class WaterfallToolbar : CardView {
     /**
      * Custom parcelable to store this view's dynamic state
      */
-    private class SavedState : View.BaseSavedState {
+    private class SavedState : BaseSavedState {
         var elevation: Int? = null
         var orthodoxPosition: Px? = null
         var realPosition: Px? = null
@@ -298,9 +299,10 @@ open class WaterfallToolbar : CardView {
         @RequiresApi(api = Build.VERSION_CODES.N)
         internal constructor(source: Parcel, loader: ClassLoader) : super(source, loader)
 
-        internal constructor(superState: Parcelable) : super(superState)
+        internal constructor(superState: Parcelable?) : super(superState)
 
         companion object {
+            @JvmField
             internal val CREATOR: Parcelable.Creator<SavedState> = object : Parcelable.Creator<SavedState> {
                 override fun createFromParcel(source: Parcel): SavedState {
                     return SavedState(source)

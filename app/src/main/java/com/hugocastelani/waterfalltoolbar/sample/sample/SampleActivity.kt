@@ -1,10 +1,11 @@
 package com.hugocastelani.waterfalltoolbar.sample.sample
 
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.hugocastelani.waterfalltoolbar.Dp
 import com.hugocastelani.waterfalltoolbar.density
 import com.hugocastelani.waterfalltoolbar.sample.R
@@ -21,7 +22,7 @@ class SampleActivity : AppCompatActivity() {
             (1 until 21).mapTo(field) {
                 itemModel {
                     title = "Item #$it"
-                    summary = "Earth isn't flat"
+                    summary = "Hello, World"
                 }
             }
 
@@ -63,7 +64,7 @@ class SampleActivity : AppCompatActivity() {
 
         // setup recycler view
         val layoutManager = LinearLayoutManager(
-                baseContext, LinearLayoutManager.VERTICAL, false)
+                baseContext, RecyclerView.VERTICAL, false)
 
         val adapter = Adapter(itemModelList)
 
