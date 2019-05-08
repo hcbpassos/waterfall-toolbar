@@ -29,18 +29,48 @@ open class WaterfallToolbar : CardView {
      */
     var recyclerView: RecyclerView? = null
         set(value) {
-            field = value
-            addRecyclerViewScrollListener()
+            if (value == null) {
+                unbindRecyclerView()
+                field = value
+            } else {
+                field = value
+                addRecyclerViewScrollListener()
+            }
         }
+
+    private val recyclerViewScrollListener: RecyclerView.OnScrollListener =
+            object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    // real position must always get updated
+
+                    realPosition.value = realPosition.value + dy
+                    mutualScrollListenerAction()
+                }
+            }
 
     /**
      * The scroll view whose scroll is going to be listened
      */
     var scrollView: ScrollView? = null
         set(value) {
-            field = value
-            addScrollViewScrollListener()
+            if (value == null) {
+                unbindScrollView()
+                field = value
+            } else {
+                field = value
+                addScrollViewScrollListener()
+            }
         }
+
+    private val scrollViewScrollListener: ViewTreeObserver.OnScrollChangedListener =
+            ViewTreeObserver.OnScrollChangedListener {
+                scrollView?.let {
+                    // real position must always get updated
+                    realPosition.value = it.scrollY
+                    mutualScrollListenerAction()
+                }
+            }
 
     /**
      * The three variables ahead are null safe, since they are always set
@@ -168,24 +198,16 @@ open class WaterfallToolbar : CardView {
         isSetup = true
     }
 
-    private fun addRecyclerViewScrollListener() {
-        recyclerView?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                // real position must always get updated
-                realPosition.value = realPosition.value + dy
-                mutualScrollListenerAction()
-            }
-        })
-    }
+    private fun addRecyclerViewScrollListener() =
+            recyclerView?.addOnScrollListener(recyclerViewScrollListener)
 
-    private fun addScrollViewScrollListener() {
-        scrollView?.viewTreeObserver?.addOnScrollChangedListener {
-            // real position must always get updated
-            realPosition.value = scrollView!!.scrollY
-            mutualScrollListenerAction()
-        }
-    }
+    fun unbindRecyclerView() = recyclerView?.removeOnScrollListener(recyclerViewScrollListener)
+
+    private fun addScrollViewScrollListener() =
+            scrollView?.viewTreeObserver?.addOnScrollChangedListener(scrollViewScrollListener)
+
+    fun unbindScrollView() =
+            scrollView?.viewTreeObserver?.removeOnScrollChangedListener(scrollViewScrollListener)
 
     /**
      * These lines are common in both scroll listeners, so they are better joined
