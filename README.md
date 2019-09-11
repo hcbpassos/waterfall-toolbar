@@ -66,9 +66,9 @@ Congratulations, you're all set!<br>
 Note: you can do whatever you want with your inner Toolbar, Waterfall Toolbar won't interfere.
 
 ## Customization
-Note: sample project provides a nice environment to test all these things. Maybe you should give it a try.<br>
 Well, there are people who follow standards and people who create their standards. These last ones can customize three aspects of Waterfall Toolbar with Java or XML.
-However, to set those attributes in Java, you have to use WaterfallToolbar's unit classes: Px and Dp.
+
+Note: The sample project provides a nice environment to test all of these aspects. Maybe you should give it a try.<br>
 
 ### How to use Px and Dp classes
 I've created these classes to simplify the conversion between px and dp, which happens often inside WaterfallToolbar class.
@@ -136,15 +136,6 @@ Now the final shadow takes much less and much longer to completely appear, respe
 
 ## Current project situation
 Waterfall Toolbar is stable, but ListView would come in handy. If you want to contribute, please read <a href="https://github.com/HugoCastelani/waterfall-toolbar/issues/2">this</a>.
-
-## Developer
-### Contact me
-<a href="https://plus.google.com/+HugoCastelaniBP">Google+</a><br>
-<a href="https://t.me/HugoCastelani">Telegram</a>
-
-### Support me
-HugoCastelaniBP@gmail.com<br>
-If you enjoy my work and have lots of money left over, please support me via PayPal using the email above :)<br>
 
 ## License
     MIT License
