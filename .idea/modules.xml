@@ -5,6 +5,9 @@
       <module fileurl="file://$PROJECT_DIR$/WaterfallToolbar.iml" filepath="$PROJECT_DIR$/WaterfallToolbar.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/waterfall-toolbar.iml" filepath="$PROJECT_DIR$/waterfall-toolbar.iml" group="waterfall-toolbar" />
+      <module fileurl="file://$PROJECT_DIR$/app/waterfall-toolbar-app.iml" filepath="$PROJECT_DIR$/app/waterfall-toolbar-app.iml" group="waterfall-toolbar/app" />
+      <module fileurl="file://$PROJECT_DIR$/library/waterfall-toolbar-library.iml" filepath="$PROJECT_DIR$/library/waterfall-toolbar-library.iml" group="waterfall-toolbar/library" />
     </modules>
   </component>
 </project>

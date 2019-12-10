@@ -30,6 +30,9 @@ open class WaterfallToolbar : CardView {
      */
     var recyclerView: RecyclerView? = null
         set(value) {
+            realPosition.value = 0
+            orthodoxPosition.value = 0
+            adjustCardElevation()
             if (value == null) {
                 unbindRecyclerView()
                 field = value
