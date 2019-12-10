@@ -275,9 +275,9 @@ open class WaterfallToolbar : CardView {
             post {
                 // it's safe to use "!!" here, since savedState will
                 // always store values properly set in onSaveInstanceState()
-                cardElevation = state.elevation!!.toFloat()
-                orthodoxPosition = state.orthodoxPosition!!
-                realPosition = state.realPosition!!
+                cardElevation = state.elevation?.toFloat() ?: 0f
+                orthodoxPosition = state.orthodoxPosition ?: Px(0)
+                realPosition = state.realPosition ?: Px(0)
             }
 
         } else {
