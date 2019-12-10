@@ -1,16 +1,16 @@
 package com.hugocastelani.waterfalltoolbar
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.AttributeSet
-import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.ScrollView
 import androidx.annotation.RequiresApi
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 
 /**
  * Created by Hugo Castelani
@@ -18,7 +18,8 @@ import androidx.recyclerview.widget.RecyclerView
  * Time: 19:30
  */
 
-open class WaterfallToolbar : CardView {
+open class WaterfallToolbar : MaterialCardView {
+
     init {
         // set density to be able to use DimensionUnits
         // this code must run before all the signings using DimensionUnits
@@ -40,16 +41,22 @@ open class WaterfallToolbar : CardView {
             }
         }
 
-    private val recyclerViewScrollListener: RecyclerView.OnScrollListener =
-            object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-                    // real position must always get updated
+    var initialBackgroundColor: Int = Color.TRANSPARENT
 
-                    realPosition.value = realPosition.value + dy
-                    mutualScrollListenerAction()
-                }
+    var finalBackgroundColor: Int = Color.TRANSPARENT
+
+    private var interpolateAsScroll: Boolean = false
+
+    private val recyclerViewScrollListener: RecyclerView.OnScrollListener =
+        object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                // real position must always get updated
+
+                realPosition.value = realPosition.value + dy
+                mutualScrollListenerAction()
             }
+        }
 
     fun resetElevation() {
         realPosition.value = 0
@@ -72,13 +79,13 @@ open class WaterfallToolbar : CardView {
         }
 
     private val scrollViewScrollListener: ViewTreeObserver.OnScrollChangedListener =
-            ViewTreeObserver.OnScrollChangedListener {
-                scrollView?.let {
-                    // real position must always get updated
-                    realPosition.value = it.scrollY
-                    mutualScrollListenerAction()
-                }
+        ViewTreeObserver.OnScrollChangedListener {
+            scrollView?.let {
+                // real position must always get updated
+                realPosition.value = it.scrollY
+                mutualScrollListenerAction()
             }
+        }
 
     /**
      * The three variables ahead are null safe, since they are always set
@@ -169,7 +176,7 @@ open class WaterfallToolbar : CardView {
     }
 
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int?)
-            : super(context, attrs, defStyleAttr!!) {
+        : super(context, attrs, defStyleAttr!!) {
         init(context, attrs)
     }
 
@@ -181,13 +188,25 @@ open class WaterfallToolbar : CardView {
             val typedArray = context.obtainStyledAttributes(attrs, R.styleable.WaterfallToolbar)
 
             val rawInitialElevation = typedArray.getDimensionPixelSize(
-                    R.styleable.WaterfallToolbar_initial_elevation, defaultInitialElevation.value)
+                R.styleable.WaterfallToolbar_initial_elevation, defaultInitialElevation.value)
 
             val rawFinalElevation = typedArray.getDimensionPixelSize(
-                    R.styleable.WaterfallToolbar_final_elevation, defaultFinalElevation.value)
+                R.styleable.WaterfallToolbar_final_elevation, defaultFinalElevation.value)
 
             scrollFinalPosition = typedArray.getInteger(
-                    R.styleable.WaterfallToolbar_scroll_final_elevation, defaultScrollFinalElevation)
+                R.styleable.WaterfallToolbar_scroll_final_elevation, defaultScrollFinalElevation)
+
+            initialBackgroundColor = typedArray.getColor(
+                R.styleable.WaterfallToolbar_initial_color, Color.TRANSPARENT
+            )
+
+            finalBackgroundColor = typedArray.getColor(
+                R.styleable.WaterfallToolbar_final_color, Color.TRANSPARENT
+            )
+
+            interpolateAsScroll = typedArray.getBoolean(
+                R.styleable.WaterfallToolbar_interpolate_color_while_scroll, false
+            )
 
             this.initialElevation = Px(rawInitialElevation)
             this.finalElevation = Px(rawFinalElevation)
@@ -207,15 +226,15 @@ open class WaterfallToolbar : CardView {
     }
 
     private fun addRecyclerViewScrollListener() =
-            recyclerView?.addOnScrollListener(recyclerViewScrollListener)
+        recyclerView?.addOnScrollListener(recyclerViewScrollListener)
 
     fun unbindRecyclerView() = recyclerView?.removeOnScrollListener(recyclerViewScrollListener)
 
     private fun addScrollViewScrollListener() =
-            scrollView?.viewTreeObserver?.addOnScrollChangedListener(scrollViewScrollListener)
+        scrollView?.viewTreeObserver?.addOnScrollChangedListener(scrollViewScrollListener)
 
     fun unbindScrollView() =
-            scrollView?.viewTreeObserver?.removeOnScrollChangedListener(scrollViewScrollListener)
+        scrollView?.viewTreeObserver?.removeOnScrollChangedListener(scrollViewScrollListener)
 
     /**
      * These lines are common in both scroll listeners, so they are better joined
@@ -252,6 +271,16 @@ open class WaterfallToolbar : CardView {
 
         // avoid values under minimum value
         if (newElevation < initialElevation!!.value) newElevation = initialElevation!!.value
+
+        if (interpolateAsScroll) {
+            setCardBackgroundColor(
+                lerpArgb(
+                    initialBackgroundColor,
+                    finalBackgroundColor,
+                    newElevation / (finalElevation?.value?.toFloat() ?: 1f)
+                )
+            )
+        }
 
         return Px(newElevation)
     }

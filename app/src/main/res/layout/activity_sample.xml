@@ -1,26 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.hugocastelani.waterfalltoolbar.sample.sample.SampleActivity"
-    android:orientation="vertical">
+    android:background="@color/md_blue_A400"
+    android:orientation="vertical"
+    tools:context="com.hugocastelani.waterfalltoolbar.sample.sample.SampleActivity">
 
     <com.hugocastelani.waterfalltoolbar.WaterfallToolbar
         android:id="@+id/as_waterfall_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        app:cardBackgroundColor="@color/md_red_A700"
+        android:layout_height="wrap_content"
+        app:final_color="@android:color/holo_purple"
+        app:initial_color="@android:color/holo_orange_dark"
+        app:interpolate_color_while_scroll="true">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/as_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"/>
+            android:layout_height="?actionBarSize" />
 
     </com.hugocastelani.waterfalltoolbar.WaterfallToolbar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/as_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
 </LinearLayout>

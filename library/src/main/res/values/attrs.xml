@@ -3,6 +3,9 @@
     <declare-styleable name="WaterfallToolbar">
         <attr format="dimension" name="initial_elevation" />
         <attr format="dimension" name="final_elevation" />
+        <attr format="color" name="initial_color"/>
+        <attr format="color" name="final_color"/>
+        <attr format="boolean" name="interpolate_color_while_scroll"/>
         <attr format="integer" name="scroll_final_elevation" />
     </declare-styleable>
 </resources>
