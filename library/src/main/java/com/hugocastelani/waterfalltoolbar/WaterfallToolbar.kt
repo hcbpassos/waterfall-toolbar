@@ -6,11 +6,13 @@ import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.AttributeSet
+import android.util.Log
 import android.view.ViewTreeObserver
 import android.widget.ScrollView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
+import kotlin.math.roundToInt
 
 /**
  * Created by Hugo Castelani
@@ -41,6 +43,8 @@ open class WaterfallToolbar : MaterialCardView {
             }
         }
 
+    var onUpdateProgress: ((value: Float) -> Unit)? = null
+
     var initialBackgroundColor: Int = Color.TRANSPARENT
 
     var finalBackgroundColor: Int = Color.TRANSPARENT
@@ -48,15 +52,15 @@ open class WaterfallToolbar : MaterialCardView {
     private var interpolateAsScroll: Boolean = false
 
     private val recyclerViewScrollListener: RecyclerView.OnScrollListener =
-        object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                // real position must always get updated
+            object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    // real position must always get updated
 
-                realPosition.value = realPosition.value + dy
-                mutualScrollListenerAction()
+                    realPosition.value = realPosition.value + dy
+                    mutualScrollListenerAction()
+                }
             }
-        }
 
     fun resetElevation() {
         realPosition.value = 0
@@ -79,13 +83,13 @@ open class WaterfallToolbar : MaterialCardView {
         }
 
     private val scrollViewScrollListener: ViewTreeObserver.OnScrollChangedListener =
-        ViewTreeObserver.OnScrollChangedListener {
-            scrollView?.let {
-                // real position must always get updated
-                realPosition.value = it.scrollY
-                mutualScrollListenerAction()
+            ViewTreeObserver.OnScrollChangedListener {
+                scrollView?.let {
+                    // real position must always get updated
+                    realPosition.value = it.scrollY
+                    mutualScrollListenerAction()
+                }
             }
-        }
 
     /**
      * The three variables ahead are null safe, since they are always set
@@ -131,7 +135,7 @@ open class WaterfallToolbar : MaterialCardView {
         set(value) {
             if (value != null) {
                 val screenHeight = resources.displayMetrics.heightPixels
-                field = Math.round(screenHeight * (value / 100.0f))
+                field = (screenHeight * (value / 100.0f)).roundToInt()
 
                 // got to update elevation in case this value have
                 // been set in a running and visible activity
@@ -176,7 +180,7 @@ open class WaterfallToolbar : MaterialCardView {
     }
 
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int?)
-        : super(context, attrs, defStyleAttr!!) {
+            : super(context, attrs, defStyleAttr!!) {
         init(context, attrs)
     }
 
@@ -188,24 +192,24 @@ open class WaterfallToolbar : MaterialCardView {
             val typedArray = context.obtainStyledAttributes(attrs, R.styleable.WaterfallToolbar)
 
             val rawInitialElevation = typedArray.getDimensionPixelSize(
-                R.styleable.WaterfallToolbar_initial_elevation, defaultInitialElevation.value)
+                    R.styleable.WaterfallToolbar_initial_elevation, defaultInitialElevation.value)
 
             val rawFinalElevation = typedArray.getDimensionPixelSize(
-                R.styleable.WaterfallToolbar_final_elevation, defaultFinalElevation.value)
+                    R.styleable.WaterfallToolbar_final_elevation, defaultFinalElevation.value)
 
             scrollFinalPosition = typedArray.getInteger(
-                R.styleable.WaterfallToolbar_scroll_final_elevation, defaultScrollFinalElevation)
+                    R.styleable.WaterfallToolbar_scroll_final_elevation, defaultScrollFinalElevation)
 
             initialBackgroundColor = typedArray.getColor(
-                R.styleable.WaterfallToolbar_initial_color, Color.TRANSPARENT
+                    R.styleable.WaterfallToolbar_initial_color, Color.TRANSPARENT
             )
 
             finalBackgroundColor = typedArray.getColor(
-                R.styleable.WaterfallToolbar_final_color, Color.TRANSPARENT
+                    R.styleable.WaterfallToolbar_final_color, Color.TRANSPARENT
             )
 
             interpolateAsScroll = typedArray.getBoolean(
-                R.styleable.WaterfallToolbar_interpolate_color_while_scroll, false
+                    R.styleable.WaterfallToolbar_interpolate_color_while_scroll, false
             )
 
             this.initialElevation = Px(rawInitialElevation)
@@ -226,15 +230,15 @@ open class WaterfallToolbar : MaterialCardView {
     }
 
     private fun addRecyclerViewScrollListener() =
-        recyclerView?.addOnScrollListener(recyclerViewScrollListener)
+            recyclerView?.addOnScrollListener(recyclerViewScrollListener)
 
     fun unbindRecyclerView() = recyclerView?.removeOnScrollListener(recyclerViewScrollListener)
 
     private fun addScrollViewScrollListener() =
-        scrollView?.viewTreeObserver?.addOnScrollChangedListener(scrollViewScrollListener)
+            scrollView?.viewTreeObserver?.addOnScrollChangedListener(scrollViewScrollListener)
 
     fun unbindScrollView() =
-        scrollView?.viewTreeObserver?.removeOnScrollChangedListener(scrollViewScrollListener)
+            scrollView?.viewTreeObserver?.removeOnScrollChangedListener(scrollViewScrollListener)
 
     /**
      * These lines are common in both scroll listeners, so they are better joined
@@ -268,18 +272,15 @@ open class WaterfallToolbar : MaterialCardView {
         // finalElevation = scrollFinalPosition
         // newElevation   = orthodoxPosition
         var newElevation: Int = finalElevation!!.value * orthodoxPosition.value / scrollFinalPosition!!
+        Log.d("PROGRESS", "${newElevation / finalElevation?.value!!.toFloat()}")
 
         // avoid values under minimum value
         if (newElevation < initialElevation!!.value) newElevation = initialElevation!!.value
 
-        if (interpolateAsScroll) {
-            setCardBackgroundColor(
-                lerpArgb(
-                    initialBackgroundColor,
-                    finalBackgroundColor,
-                    newElevation / (finalElevation?.value?.toFloat() ?: 1f)
-                )
-            )
+        if (interpolateAsScroll && finalElevation != null) {
+            val progress = newElevation / finalElevation!!.value.toFloat()
+            setCardBackgroundColor(lerpArgb(initialBackgroundColor, finalBackgroundColor, progress))
+            onUpdateProgress?.invoke(progress)
         }
 
         return Px(newElevation)
